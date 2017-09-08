@@ -1,5 +1,8 @@
 # banner
 
+Android Viewpager rotation control, application guide page controls, support vertical, horizontal cycle scrolling, extended from view support animation, indicator extension and so on.
+
+
 Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动，扩展自viewpager 支持动画，指示器扩展等。
 
 ## 用途
