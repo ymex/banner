@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Banner">
+        <attr name="banner_interval" format="integer" />
+        <attr name="banner_auto_play" format="boolean" />
+        <attr name="banner_is_vertical" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="IndicatorLayout">
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_selected" format="color|reference" />
+        <attr name="indicator_unselected" format="color|reference" />
+    </declare-styleable>
+</resources>
