@@ -9,6 +9,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。
 
 ## 简单使用
+需要 v7 的包支持。
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
 ```
 <cn.ymex.banner.Banner
