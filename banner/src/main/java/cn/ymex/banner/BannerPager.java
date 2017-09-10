@@ -58,6 +58,8 @@ public class BannerPager extends ViewPager {
         if (!isVertical) {
             return this.canScroll && super.onInterceptTouchEvent(ev);
         }
+
+        getParent().requestDisallowInterceptTouchEvent(true);
         boolean intercepted = super.onInterceptTouchEvent(swapEventCoordinate(ev));
         swapEventCoordinate(ev);
         return intercepted;
@@ -75,6 +77,7 @@ public class BannerPager extends ViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+
         return super.dispatchTouchEvent(ev);
     }
 
@@ -86,11 +89,12 @@ public class BannerPager extends ViewPager {
         isVertical = vertical;
         if (isVertical) {
             setOverScrollMode(OVER_SCROLL_NEVER);
-            setPageTransformer(true,new VerticalPageTransformer());
-        }else {
+            setPageTransformer(true, new VerticalPageTransformer());
+        } else {
             setPageTransformer(true, null);
         }
     }
+
 
     private class BannerScroller extends Scroller {
         private int mDuration = 720;

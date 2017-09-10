@@ -6,22 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.banner.MainActivity">
 
-    <cn.ymex.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="240dip"
-        android:background="@color/colorAccent"
-        app:banner_auto_play="true"
-        app:banner_interval="5000">
-
-        <cn.ymex.banner.IndicatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dip"
-            android:gravity="center"
-            app:indicator_height="8dip"
-            app:indicator_width="8dip" />
-    </cn.ymex.banner.Banner>
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_content"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 
 </LinearLayout>

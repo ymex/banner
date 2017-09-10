@@ -1,44 +1,65 @@
 package com.example.banner;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.banner.entity.BanneModel;
+import com.example.banner.adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ymex.banner.Banner;
-
 public class MainActivity extends AppCompatActivity {
-    private Banner banner;
+
+    private RecyclerView rvContent;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        banner = (Banner) findViewById(R.id.banner);
-        banner.bindView(new Banner.BindViewCallBack<AppCompatImageView, BanneModel>() {
+        rvContent = (RecyclerView) findViewById(R.id.rv_content);
+        rvContent.setAdapter(adapter = new RecyclerViewAdapter());
+        rvContent.setLayoutManager(new LinearLayoutManager(this));
+        rvContent.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+
+        adapter.setDatas(recycleAdapterData());
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void bindView(AppCompatImageView view, BanneModel data, int position) {
-                //图片加载
-                Glide.with(view.getContext())
-                        .load(data.getUrl())
-                        .into(view);
+            public void itemClick(int position) {
+                Intent intent = new Intent();
+                switch (position) {
+                    case 1:
+                        intent.setClassName(getPackageName(),DefaultBannerUserActivity.class.getName());
+                        startActivity(intent);
+                        break;
+                    case 3://banner垂直方向滚动
+                        adapter.setBannerDirection(true);
+                        break;
+                    case 4://banner水平方向滚动
+                        adapter.setBannerDirection(false);
+                        break;
+                }
             }
-        }).execute(data());
+        });
     }
 
-    private List<BanneModel> data() {
-        return new ArrayList<BanneModel>() {{
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-07/29/0_admin_upload_1501307922564.png", "推动合规建设"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-08/30/0_admin_upload_1504077511668.png", "会员体系大升级"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-06/27/0_admin_upload_1498548797754.jpg", "红包大派对"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-08/11/0_admin_upload_1502445455975.png", "兑换抽奖"));
+
+    private List<String> recycleAdapterData() {
+        return new ArrayList<String>() {{
+            add("banner");
+            add("默认banner使用");
+            add("动画支持");
+            add("banner垂直方向滚动");// 3
+            add("banner水平方向滚动");// 4
+            add("banner高级定制");
+            add("默认指示器使用");
+            add("自定义指示器");
+            add("bann方法及参数介绍");
         }};
     }
+
 }
