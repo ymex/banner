@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/ymex/maven/banner/images/download.svg) ](https://bintray.com/ymex/maven/banner/_latestVersion)
+
 # banner
 
 Android Viewpager rotation control, application guide page controls, support vertical, horizontal cycle scrolling, extended from view support animation, indicator extension and so on.
