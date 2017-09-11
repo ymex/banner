@@ -8,18 +8,17 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ## 用途
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。
 
-1、app引导页控件<br>
-![gif](https://github.com/ymex/banner/blob/master/art/GIF-g.gif)
-2、轮播图控件<br>
-![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)
-3、设置翻页动画<br>
-![gif](https://github.com/ymex/banner/blob/master/art/GIF-a.gif)
-4、自定义指示器<br>
-![gif](https://github.com/ymex/banner/blob/master/art/GIF-i.gif)
-5、垂直滚动<br>
-![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)
 
 ## 简单使用
+1、app引导页控件<br>
+2、轮播图控件<br>
+![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)<br>
+3、设置翻页动画<br>
+![gif](https://github.com/ymex/banner/blob/master/art/GIF-a.gif)<br>
+4、自定义指示器<br>
+![gif](https://github.com/ymex/banner/blob/master/art/GIF-i.gif)<br>
+5、垂直滚动<br>
+![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)<br>
 需要 v7 的包支持。
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
 ```
