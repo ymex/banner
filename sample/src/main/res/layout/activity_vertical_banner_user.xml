@@ -14,7 +14,7 @@
         android:background="@color/colorAccent"
         app:banner_auto_play="true"
         app:banner_interval="3000"
-        app:banner_is_vertical="true">
+        app:banner_orientation="vertical">
 
         <cn.ymex.banner.IndicatorLayout
             android:layout_width="wrap_content"

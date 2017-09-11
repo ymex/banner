@@ -28,6 +28,9 @@ import java.util.List;
 
 public class Banner extends FrameLayout implements ViewPager.OnPageChangeListener {
 
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+
     private BannerPager mBannerPage;
     private List<Object> mData;
     private List<View> mItemViews;
@@ -90,8 +93,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
         interval = typedArray.getInt(R.styleable.Banner_banner_interval, interval);
         isAutoPlay = typedArray.getBoolean(R.styleable.Banner_banner_auto_play, isAutoPlay);
-        isVertical = typedArray.getBoolean(R.styleable.Banner_banner_is_vertical, isVertical);
-        isLoop = typedArray.getBoolean(R.styleable.Banner_banner_is_loop, isLoop);
+        isLoop = typedArray.getBoolean(R.styleable.Banner_banner_loop, isLoop);
+        isVertical = (typedArray.getInt(R.styleable.Banner_banner_orientation, 0) == VERTICAL);
         typedArray.recycle();
     }
 
@@ -113,13 +116,14 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     /**
      * 设置转换动画
-     * @param reverseDrawingOrder  reverseDrawingOrder
-     * @param transformer transformer
+     *
+     * @param reverseDrawingOrder reverseDrawingOrder
+     * @param transformer         transformer
      * @return Banner
      */
     public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
         if (mBannerPage != null) {
-            mBannerPage.setPageTransformer(reverseDrawingOrder,transformer);
+            mBannerPage.setPageTransformer(reverseDrawingOrder, transformer);
         }
         return this;
     }
@@ -129,16 +133,40 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return setPageTransformer(true, transformer);
     }
 
+
     /**
      * 设置垂直滚动 ，此时PageTransformer会被重置
      * （原因，水平的PageTransformer可能不是你需要的,所以会重置成banner提供的垂直的PageTransformer。）
-     * @param isVertical 垂直滚动
+     *
+     * @param orientation 滚动方向 HORIZONTAL VERTICAL
      * @return Banner
      */
-    public Banner setVerticalModel(boolean isVertical) {
-        this.isVertical = isVertical;
+    public Banner setOrientation(int orientation) {
+        this.isVertical = orientation == VERTICAL;
         if (mBannerPage != null) {
             mBannerPage.setVertical(this.isVertical);
+        }
+        return this;
+    }
+
+
+    /**
+     * 循环滚动
+     *
+     * @param loop true
+     * @return
+     */
+    public Banner setLoop(boolean loop) {
+        isLoop = loop;
+        int dataSize = getBannerData().size();
+        int viewSize = getItemViews().size();
+        if (dataSize != viewSize) {
+            if (viewSize < 2) {
+                return this;
+            }
+            getItemViews().remove(viewSize - 1);
+            getItemViews().remove(0);
+            mBannerPage.getAdapter().notifyDataSetChanged();
         }
         return this;
     }
@@ -179,7 +207,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
         mBannerPage.setAdapter(new BannerPagerAdapter());
         if (getBannerData().size() > 0) {
-            mCurrentItem = 1;
+            mCurrentItem = isLoop ? 1 : 0;
             mBannerPage.setCurrentItem(mCurrentItem);
         }
 
@@ -188,14 +216,17 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         } else {
             mBannerPage.setCanScroll(true);
         }
-        if (isAutoPlay) {
-            startAutoPlay();
-        }
+
+        startAutoPlay();
+
     }
 
     public void startAutoPlay() {
-        mHandler.removeCallbacks(mHandlerTask);
-        mHandler.postDelayed(mHandlerTask, interval);
+        if (isAutoPlay && isLoop) {
+            mHandler.removeCallbacks(mHandlerTask);
+            mHandler.postDelayed(mHandlerTask, interval);
+        }
+
     }
 
     public void stopAutoPlay() {
@@ -212,7 +243,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         if (size <= 0) {
             return;
         }
-        for (int i = 0; i <= size + 1; i++) {
+
+        for (int i = 0; i <= (isLoop ? size + 1 : size - 1); i++) {
             if (def) {
                 this.createViewCallBack = new CreateViewCallBack<AppCompatImageView>() {
                     @Override
@@ -221,7 +253,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                     }
                 };
             }
-            View view =  createViewCallBack.createView(getContext());
+            View view = createViewCallBack.createView(getContext());
             getItemViews().add(view);
             int index = positionIndex(i);
 
@@ -241,6 +273,9 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     private int positionIndex(int postion) {
+        if (!isLoop) {
+            return postion;
+        }
         int count = getBannerData().size();
         int index = postion - 1;
         if (postion == 0) {
@@ -345,7 +380,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
         int count = getBannerData().size();
         if (mCurrentItem == count + 1) {
-            mBannerPage.setCurrentItem(mCurrentItem =1, false);
+            mBannerPage.setCurrentItem(mCurrentItem = 1, false);
         } else if (mCurrentItem == 0) {
             mBannerPage.setCurrentItem(mCurrentItem = count, false);
         }
@@ -389,7 +424,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 return;
             }
             int size = banner.getBannerData().size();
-            if (size > 1 && banner.isAutoPlay) {
+            if (size > 1 && banner.isAutoPlay && banner.isLoop) {
                 banner.mCurrentItem = banner.mCurrentItem % (size + 1) + 1;
                 if (banner.mCurrentItem == 1) {
                     banner.mBannerPage.setCurrentItem(banner.mCurrentItem, false);
@@ -467,6 +502,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public interface CreateViewCallBack<T extends View> {
         /**
          * 创建自定义view
+         *
          * @param context context
          * @return view
          */
@@ -481,8 +517,9 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public interface BindViewCallBack<V extends View, T> {
         /**
          * 绑定view
-         * @param view 自定义的布局
-         * @param data banner数据
+         *
+         * @param view     自定义的布局
+         * @param data     banner数据
          * @param position 位置
          */
         void bindView(V view, T data, int position);

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
+
 
 android {
     compileSdkVersion 26
@@ -7,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.2.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -23,4 +25,23 @@ android {
 
 dependencies {
     provided 'com.android.support:appcompat-v7:26.+'
+}
+
+publish {
+    userOrg = 'ymex'
+    groupId = 'cn.ymex'
+    artifactId = 'banner'
+    publishVersion = '1.2.0'
+    desc = 'banner for Android'
+    website = 'https://github.com/ymex/banner'
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+task androidJavadocs(type: Javadoc) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.encoding = "UTF-8"
+        }
+    }
 }

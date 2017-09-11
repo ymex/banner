@@ -10,6 +10,7 @@
         android:layout_height="240dip"
         android:background="#eeeeee"
         app:banner_auto_play="true"
+        app:banner_orientation="horizontal"
         app:banner_interval="3000">
 
         <cn.ymex.banner.IndicatorLayout

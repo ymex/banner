@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="#eeeeee"
         app:banner_auto_play="false"
-        app:banner_is_loop="true"
+        app:banner_loop="false"
         app:banner_interval="3000">
 
         <cn.ymex.banner.IndicatorLayout

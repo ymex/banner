@@ -55,11 +55,11 @@ public class VerticalBannerActivity extends AppCompatActivity  implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_v:
-                banner.setVerticalModel(true);
+                banner.setOrientation(Banner.VERTICAL);
                 banner.execute(DateBox.banneModels());
                 break;
             case R.id.btn_h:
-                banner.setVerticalModel(false);
+                banner.setOrientation(Banner.HORIZONTAL);
                 banner.execute(DateBox.banneModels());
                 break;
         }

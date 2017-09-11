@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 
+import com.ToxicBakery.viewpager.transforms.StackTransformer;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class GuidePageActivity extends AppCompatActivity {
 
         banner = (Banner) findViewById(R.id.banner);
 
-        banner.bindView(new Banner.BindViewCallBack<AppCompatImageView, Integer>() {
+        banner.setPageTransformer(new StackTransformer())
+                .bindView(new Banner.BindViewCallBack<AppCompatImageView, Integer>() {
             @Override
             public void bindView(AppCompatImageView view, Integer data, int position) {
                 Glide.with(view.getContext()).load(data).into(view);
@@ -49,25 +51,26 @@ public class GuidePageActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (isLast(state)) {
+                if (isLast(state,banner)) {
                     startActivity(new Intent(GuidePageActivity.this, MainActivity.class));
                     GuidePageActivity.this.finish();
                 }
             }
         });
     }
-    List<Integer> statuses = new ArrayList<Integer>();
+
     /**
      * 判断最后一条目的滑动方向
      *
      * @return
      */
-    private boolean isLast(int state) {
+    List<Integer> statuses = new ArrayList<Integer>();
+    private boolean isLast(int state,Banner  banner) {
         this.statuses.add(state);
         int len = statuses.size();
         return  len >= 2
                 && statuses.get(len - 1) == ViewPager.SCROLL_STATE_IDLE
                 && statuses.get(len - 2) == ViewPager.SCROLL_STATE_DRAGGING
-                && banner.getBannerPage().getCurrentItem() == guides.size() - 1;
+                && banner.getBannerPage().getCurrentItem() == banner.getBannerData().size() - 1;
     }
 }

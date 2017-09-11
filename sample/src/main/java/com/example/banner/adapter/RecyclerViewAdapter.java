@@ -91,7 +91,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void fillBanner(Banner banner) {
 
-        banner.setVerticalModel(isVertical).bindView(new Banner.BindViewCallBack<AppCompatImageView, BanneModel>() {
+        banner.bindView(new Banner.BindViewCallBack<AppCompatImageView, BanneModel>() {
             @Override
             public void bindView(AppCompatImageView view, BanneModel data, int position) {
                 //图片加载
