@@ -8,11 +8,15 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ## 用途
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。
 
+1、app引导页控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-g.gif)
+2、轮播图控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)
-
+3、设置翻页动画<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-a.gif)
+4、自定义指示器<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-i.gif)
+5、垂直滚动<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)
 
 ## 简单使用
