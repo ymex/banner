@@ -30,5 +30,5 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="4dip"
         android:padding="16dip"
-        android:text="banner默认会创建AppCompatImageView为banner 页面,只需要加载图片到这个ImageView组件即可.\n\n默认banner水平方向循环滚动\n滚动间隔5秒" />
+        android:text="banner 方法：\ncreateView 创建布局 \nbindView 布局处理 \nsetOnClickBannerListener 点击事件 \execute 填充数据" />
 </LinearLayout>

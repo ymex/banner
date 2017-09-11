@@ -40,6 +40,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private int interval = 5 * 1000;//间隔-毫秒
     private boolean isAutoPlay = true;//自动播放
     private boolean isVertical = false;//纵向滚动
+    private boolean isLoop = true;//是否循环滚动
 
     public Banner(@NonNull Context context) {
         this(context, null);
@@ -90,6 +91,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         interval = typedArray.getInt(R.styleable.Banner_banner_interval, interval);
         isAutoPlay = typedArray.getBoolean(R.styleable.Banner_banner_auto_play, isAutoPlay);
         isVertical = typedArray.getBoolean(R.styleable.Banner_banner_is_vertical, isVertical);
+        isLoop = typedArray.getBoolean(R.styleable.Banner_banner_is_loop, isLoop);
         typedArray.recycle();
     }
 
@@ -156,6 +158,10 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         this.onPageChangeListener = onPageChangeListener;
     }
 
+    public BannerPager getBannerPage() {
+        return mBannerPage;
+    }
+
     /**
      * 开始运行
      */
@@ -167,14 +173,16 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             getBannerData().addAll(imagesData);
         }
         generateItemViews();
+
+        if (mIndicatorAble != null) {
+            mIndicatorAble.initIndicator(getBannerData().size());
+        }
         mBannerPage.setAdapter(new BannerPagerAdapter());
         if (getBannerData().size() > 0) {
             mCurrentItem = 1;
             mBannerPage.setCurrentItem(mCurrentItem);
         }
-        if (mIndicatorAble != null) {
-            mIndicatorAble.initIndicator(getBannerData().size());
-        }
+
         if (getBannerData().size() <= 1) {
             mBannerPage.setCanScroll(false);
         } else {
@@ -318,24 +326,28 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             mIndicatorAble.onBannerScrollStateChanged(state);
         }
         mCurrentItem = mBannerPage.getCurrentItem();
-        int count = getBannerData().size();
+
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE:
-                if (mCurrentItem == 0) {
-                    mBannerPage.setCurrentItem(mCurrentItem=count, false);
-                } else if (mCurrentItem == count + 1) {
-                    mBannerPage.setCurrentItem(mCurrentItem= 1, false);
-                }
+                computeCurrentItem();
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
-                if (mCurrentItem == count + 1) {
-                    mBannerPage.setCurrentItem(mCurrentItem =1, false);
-                } else if (mCurrentItem == 0) {
-                    mBannerPage.setCurrentItem(mCurrentItem = count, false);
-                }
+                computeCurrentItem();
                 break;
             case ViewPager.SCROLL_STATE_SETTLING:
                 break;
+        }
+    }
+
+    private void computeCurrentItem() {
+        if (!isLoop) {
+            return;
+        }
+        int count = getBannerData().size();
+        if (mCurrentItem == count + 1) {
+            mBannerPage.setCurrentItem(mCurrentItem =1, false);
+        } else if (mCurrentItem == 0) {
+            mBannerPage.setCurrentItem(mCurrentItem = count, false);
         }
     }
 

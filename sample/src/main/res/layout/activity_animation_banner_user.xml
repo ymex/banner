@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.banner.DefaultBannerActivity"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.example.banner.DefaultBannerActivity">
 
     <cn.ymex.banner.Banner
         android:id="@+id/banner"
@@ -22,13 +22,12 @@
             android:layout_marginBottom="8dip"
             android:gravity="center"
             app:indicator_height="8dip"
-            app:indicator_width="8dip" />
+            app:indicator_width="8dip"/>
     </cn.ymex.banner.Banner>
-    <TextView
-        android:layout_marginTop="16dip"
+
+    <Button
+        android:id="@+id/btn_animation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="4dip"
-        android:padding="16dip"
-        android:text="banner默认会创建AppCompatImageView为banner 页面,只需要加载图片到这个ImageView组件即可.\n\n默认banner水平方向循环滚动\n滚动间隔5秒" />
+        android:text="切换动画"/>
 </LinearLayout>

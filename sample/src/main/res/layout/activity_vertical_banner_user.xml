@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.example.banner.DefaultBannerActivity">
+
+    <cn.ymex.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="240dip"
+        android:background="@color/colorAccent"
+        app:banner_auto_play="true"
+        app:banner_interval="3000"
+        app:banner_is_vertical="true">
+
+        <cn.ymex.banner.IndicatorLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dip"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:indicator_height="8dip"
+            app:indicator_width="8dip"/>
+    </cn.ymex.banner.Banner>
+
+    <Button
+        android:layout_marginTop="16dip"
+        android:id="@+id/btn_v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="垂直滚动"
+        />
+    <Button
+        android:id="@+id/btn_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="水平滚动"
+        />
+</LinearLayout>
