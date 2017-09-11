@@ -3,13 +3,8 @@
 Android Viewpager rotation control, application guide page controls, support vertical, horizontal cycle scrolling, extended from view support animation, indicator extension and so on.
 
 
-Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动，扩展自viewpager 支持动画，指示器扩展等。
+Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动，扩展自viewpager 支持动画，指示器扩展等。<br>
 
-## 用途
-banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。
-
-
-## 简单使用
 1、app引导页控件<br>
 2、轮播图控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)<br>
@@ -19,7 +14,18 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-i.gif)<br>
 5、垂直滚动<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)<br>
-需要 v7 的包支持。
+
+## 用途
+banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。
+
+
+## 简单使用
+需要 v7 的包支持，并引入banner lib.
+
+```
+compile 'cn.ymex:banner:1.2.0'
+```
+
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
 ```
 <cn.ymex.banner.Banner
