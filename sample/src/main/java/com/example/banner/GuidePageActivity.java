@@ -17,7 +17,7 @@ import cn.ymex.banner.Banner;
 
 public class GuidePageActivity extends AppCompatActivity {
 
-    List<Integer> guides = Arrays.asList(new Integer[]{R.mipmap.g2, R.mipmap.g3, R.mipmap.g4});
+    List<Integer> guides = Arrays.asList(new Integer[]{R.mipmap.g1,R.mipmap.g2, R.mipmap.g3, R.mipmap.g4});
 
     Banner banner;
 

@@ -10,10 +10,11 @@ import java.util.List;
 public class DateBox {
     public static List<BanneModel> banneModels() {
         return new ArrayList<BanneModel>() {{
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-07/29/0_admin_upload_1501307922564.png", "推动合规建设"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-08/30/0_admin_upload_1504077511668.png", "会员体系大升级"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-06/27/0_admin_upload_1498548797754.jpg", "红包大派对"));
-            add(new BanneModel("https://www.lejinsuo.com/dyupfiles/images/2017-08/11/0_admin_upload_1502445455975.png", "兑换抽奖"));
+            add(new BanneModel("http://7xrxcm.com2.z0.glb.qiniucdn.com/timg_1.jpg", "星空图-01"));
+            add(new BanneModel("http://7xrxcm.com2.z0.glb.qiniucdn.com/timg_2.jpg", "星空图-02"));
+            add(new BanneModel("http://7xrxcm.com2.z0.glb.qiniucdn.com/timg_3.jpg", "星空图-03"));
+            add(new BanneModel("http://7xrxcm.com2.z0.glb.qiniucdn.com/timg_4.jpg", "星空图-04"));
+            add(new BanneModel("http://7xrxcm.com2.z0.glb.qiniucdn.com/timg_5.jpg", "星空图-05"));
         }};
     }
 }
