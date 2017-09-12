@@ -17,12 +17,45 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 5、垂直滚动<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)<br>
 
-## 用途
-banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。
+## 相关属性及方法
+
+### banner部分方法
+| 方法        | 解释   |
+| --------   | :-----:  |
+|createView()|创建banner 的布局|
+|bindView()|处理banner控件元素|
+|execute()|填充数据并展示|
+|setOnClickBannerListener()|点击事件|
+|setPageTransformer()|设置转换动画|
+|setOrientation()|滚动方向|
+|setIndicatorable()|设置指示器|
 
 
-## 简单使用
-需要 v7 的包支持，并引入banner lib.
+### banner属性
+
+
+| 属性        | 解释   |
+| --------   | :-----:  |
+|banner_interval|滚动间隔 (默认5000ms)|
+|banner_auto_play|是否自动播放 (默认true)|
+|banner_loop|是否循环滚动 (默认true)|
+|banner_orientation|horizontal(默认)，vertical|
+
+### IndicatorLayout属性
+| 属性        | 解释   |
+| --------   | :-----:  |
+|indicator_width|圆点的宽|
+|indicator_height|圆点的高|
+|indicator_margin|圆点的间距|
+|indicator_selected|选中图片|
+|indicator_unselected|未选中图片|
+
+
+
+
+## 使用
+banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 
+`需要 v7 的包支持`，并引入banner lib.
 
 ```
 compile 'cn.ymex:banner:1.2.0'
@@ -63,4 +96,4 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 }).execute(data());
 ```
 
-## 自定义
+
