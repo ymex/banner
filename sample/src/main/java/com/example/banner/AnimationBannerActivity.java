@@ -13,7 +13,7 @@ import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 import com.example.banner.transformer.CustPagerTransformer;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 public class AnimationBannerActivity extends AppCompatActivity {
     private Banner banner;

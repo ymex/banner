@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 public class VerticalBannerActivity extends AppCompatActivity  implements View.OnClickListener{
     private Banner banner;

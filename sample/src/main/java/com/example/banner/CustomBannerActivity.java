@@ -3,11 +3,8 @@ package com.example.banner;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 public class CustomBannerActivity extends AppCompatActivity {
     private Banner banner;

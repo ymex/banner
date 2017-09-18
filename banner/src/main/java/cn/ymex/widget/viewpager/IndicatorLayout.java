@@ -1,4 +1,4 @@
-package cn.ymex.banner;
+package cn.ymex.widget.viewpager;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,6 +13,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import cn.ymex.banner.R;
 
 /**
  * 指示器

@@ -16,4 +16,5 @@
         <attr name="indicator_selected" format="color|reference"/>
         <attr name="indicator_unselected" format="color|reference"/>
     </declare-styleable>
+    
 </resources>

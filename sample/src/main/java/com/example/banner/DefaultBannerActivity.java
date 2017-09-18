@@ -3,14 +3,13 @@ package com.example.banner;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 public class DefaultBannerActivity extends AppCompatActivity {
     private Banner banner;

@@ -7,7 +7,7 @@
               android:orientation="vertical"
               tools:context="com.example.banner.DefaultBannerActivity">
 
-    <cn.ymex.banner.Banner
+    <cn.ymex.widget.viewpager.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="240dip"
@@ -16,7 +16,7 @@
         app:banner_interval="3000"
         app:banner_orientation="vertical">
 
-        <cn.ymex.banner.IndicatorLayout
+        <cn.ymex.widget.viewpager.IndicatorLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
@@ -25,7 +25,7 @@
             android:gravity="center"
             app:indicator_height="8dip"
             app:indicator_width="8dip"/>
-    </cn.ymex.banner.Banner>
+    </cn.ymex.widget.viewpager.Banner>
 
     <Button
         android:layout_marginTop="16dip"

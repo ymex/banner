@@ -1,4 +1,4 @@
-package cn.ymex.banner;
+package cn.ymex.widget.viewpager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,6 +21,8 @@ import android.widget.FrameLayout;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.ymex.banner.R;
 
 /**
  * viewpage  banner

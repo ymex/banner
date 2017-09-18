@@ -1,4 +1,4 @@
-package cn.ymex.banner;
+package cn.ymex.widget.viewpager;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.banner.entity.BanneModel;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 /**
  * 实现Banner.IndicatorAble 接口的布局都可以作为 指示器

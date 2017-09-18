@@ -14,7 +14,7 @@ import com.example.banner.entity.DateBox;
 
 import java.util.List;
 
-import cn.ymex.banner.Banner;
+import cn.ymex.widget.viewpager.Banner;
 
 /**
  * Created by ymex on 2017/9/10.

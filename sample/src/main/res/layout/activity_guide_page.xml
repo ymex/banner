@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.banner.GuidePageActivity">
-    <cn.ymex.banner.Banner
+    <cn.ymex.widget.viewpager.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,7 @@
         app:banner_loop="false"
         app:banner_interval="3000">
 
-        <cn.ymex.banner.IndicatorLayout
+        <cn.ymex.widget.viewpager.IndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -23,5 +23,5 @@
             android:gravity="center"
             app:indicator_height="12dip"
             app:indicator_width="12dip" />
-    </cn.ymex.banner.Banner>
+    </cn.ymex.widget.viewpager.Banner>
 </LinearLayout>
