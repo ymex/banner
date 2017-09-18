@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <cn.ymex.widget.viewpager.Banner
+    <cn.ymex.widget.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="240dip"
@@ -13,7 +13,7 @@
         app:banner_orientation="horizontal"
         app:banner_interval="3000">
 
-        <cn.ymex.widget.viewpager.IndicatorLayout
+        <cn.ymex.widget.banner.IndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -21,5 +21,5 @@
             android:gravity="center"
             app:indicator_height="8dip"
             app:indicator_width="8dip" />
-    </cn.ymex.widget.viewpager.Banner>
+    </cn.ymex.widget.banner.Banner>
 </LinearLayout>

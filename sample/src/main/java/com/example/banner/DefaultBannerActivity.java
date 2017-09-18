@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
-import cn.ymex.widget.viewpager.Banner;
+import cn.ymex.widget.banner.Banner;
 
 public class DefaultBannerActivity extends AppCompatActivity {
     private Banner banner;

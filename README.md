@@ -58,12 +58,12 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 `需要 v7 的包支持`，并引入banner lib.
 
 ```
-compile 'cn.ymex:banner:1.2.0'
+compile 'cn.ymex:banner:1.2.1'
 ```
 
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
 ```
-<cn.ymex.widget.viewpager.Banner
+<cn.ymex.widget.banner.Banner
     android:id="@+id/banner"
     android:layout_width="match_parent"
     android:layout_height="240dip"
@@ -71,7 +71,7 @@ compile 'cn.ymex:banner:1.2.0'
     app:banner_auto_play="true"
     app:banner_interval="5000">
 
-    <cn.ymex.widget.viewpager.IndicatorLayout
+    <cn.ymex.widget.banner.IndicatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -79,7 +79,7 @@ compile 'cn.ymex:banner:1.2.0'
         android:gravity="center"
         app:indicator_height="8dip"
         app:indicator_width="8dip" />
-</cn.ymex.widget.viewpager.Banner>
+</cn.ymex.widget.banner.Banner>
 ```
 
 2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局。

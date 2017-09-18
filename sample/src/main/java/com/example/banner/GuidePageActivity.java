@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.ymex.widget.viewpager.Banner;
+import cn.ymex.widget.banner.Banner;
 
 public class GuidePageActivity extends AppCompatActivity {
 

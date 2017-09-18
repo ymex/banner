@@ -26,6 +26,7 @@ android {
 
 dependencies {
     provided 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
 }
 
 publish {
