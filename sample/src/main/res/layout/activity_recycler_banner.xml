@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.banner.RecyclerBannerActivity">
+<cn.ymex.widget.banner.RecyclerBanner
+    android:id="@+id/rccycler_banner"
+    android:layout_width="match_parent"
+    app:banner_orientation="horizontal"
+    android:layout_height="240dip">
+    <cn.ymex.widget.banner.core.IndicatorLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8dip"
+        android:gravity="center"
+        app:indicator_height="8dip"
+        app:indicator_width="8dip" />
+</cn.ymex.widget.banner.RecyclerBanner>
+</LinearLayout>

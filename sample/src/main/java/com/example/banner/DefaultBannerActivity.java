@@ -10,6 +10,8 @@ import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.callback.BindViewCallBack;
+import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 public class DefaultBannerActivity extends AppCompatActivity {
     private Banner banner;
@@ -21,7 +23,7 @@ public class DefaultBannerActivity extends AppCompatActivity {
 
         banner = (Banner) findViewById(R.id.banner);
 
-        banner.bindView(new Banner.BindViewCallBack<AppCompatImageView, BanneModel>() {
+        banner.bindView(new BindViewCallBack<AppCompatImageView, BanneModel>() {
 
             @Override
             public void bindView(AppCompatImageView view, BanneModel data, int position) {//图片处理
@@ -29,7 +31,7 @@ public class DefaultBannerActivity extends AppCompatActivity {
                 Glide.with(view.getContext()).load(data.getUrl()).into(view);
             }
 
-        }).setOnClickBannerListener(new Banner.OnClickBannerListener<AppCompatImageView, BanneModel>() {
+        }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
 
             @Override
             public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件

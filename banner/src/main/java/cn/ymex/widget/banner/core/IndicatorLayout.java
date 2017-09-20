@@ -1,4 +1,4 @@
-package cn.ymex.widget.banner;
+package cn.ymex.widget.banner.core;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,12 +15,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import cn.ymex.banner.R;
+import cn.ymex.widget.banner.Banner;
 
 /**
  * 指示器
  */
 
-public class IndicatorLayout extends LinearLayout implements Banner.IndicatorAble {
+public class IndicatorLayout extends LinearLayout implements IndicatorAble {
 
     private static final int DEF_CURRENT_COLOR = 0XFFFFFFFF;
     private static final int DEF_NORMAL_COLOR = 0X88FFFFFF;

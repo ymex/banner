@@ -11,6 +11,8 @@ import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.callback.BindViewCallBack;
+import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 public class VerticalBannerActivity extends AppCompatActivity  implements View.OnClickListener{
     private Banner banner;
@@ -28,7 +30,7 @@ public class VerticalBannerActivity extends AppCompatActivity  implements View.O
         banner  //创建布局 (当不实现 CreateViewCallBack时使用的是默认布局
                 //.createView()
                 //布局处理
-                .bindView(new Banner.BindViewCallBack() {
+                .bindView(new BindViewCallBack() {
                     @Override
                     public void bindView(View view, Object data, int position) {
                         Glide.with(view.getContext()).load(((BanneModel) data)
@@ -36,7 +38,7 @@ public class VerticalBannerActivity extends AppCompatActivity  implements View.O
                     }
                 })
                 //点击事件
-                .setOnClickBannerListener(new Banner.OnClickBannerListener<View, BanneModel>() {
+                .setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
 
                     @Override
                     public void onClickBanner(View view, BanneModel data, int position) {

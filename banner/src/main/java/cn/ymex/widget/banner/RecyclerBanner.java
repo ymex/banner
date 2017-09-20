@@ -2,9 +2,14 @@ package cn.ymex.widget.banner;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.PointF;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.AttrRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.StyleRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -16,83 +21,65 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.ymex.banner.R;
+import cn.ymex.widget.banner.core.BaseBanner;
 
-public class RecyclerBanner extends FrameLayout {
+public class RecyclerBanner extends BaseBanner {
 
-    private List<Object> mData = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
-    private Banner.IndicatorAble mIndicatorLayout;
     private PagerSnapHelper snapHelper;
     private RecyclerViewAdapter adapter;
-
-    private OnCreateBannerItemViewListener onCreateBannerItemViewListener;
-    private OnBannerItemClickListener onBannerItemClickListener;
-    private OnBindBannerItemViewListener onBindBannerItemViewListener;
-
+    private HandlerTask task;
 
     private int startX, startY;
-    private int mInterval = 5000;
     private boolean isTouched;
-    private int currentIndex;
-    private boolean isAutoPlaying = true;
     private boolean isPlaying;//是否在正滚动
 
-    private Handler handler = new Handler();
-    private AutoPlayTask task;
 
-
-    public RecyclerBanner(Context context) {
+    public RecyclerBanner(@NonNull Context context) {
         this(context, null);
     }
 
-    public RecyclerBanner(Context context, AttributeSet attrs) {
+    public RecyclerBanner(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RecyclerBanner(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RecyclerBanner(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.Banner);
-
-        mInterval = attrArray.getInt(R.styleable.Banner_banner_interval, mInterval);
-
-        isAutoPlaying = attrArray.getBoolean(R.styleable.Banner_banner_auto_play, true);
+        init(context, attrs, defStyleAttr);
+    }
 
 
-        attrArray.recycle();
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public RecyclerBanner(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr);
+    }
 
-
-        task = new AutoPlayTask(this);
+    @Override
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        super.init(context, attrs, defStyleAttr);
+        mHandler = new Handler();
+        task = new HandlerTask(this);
 
         mRecyclerView = new RecyclerView(context);
-        mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        if (isVertical) {
+            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        }else {
+            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        }
         mRecyclerView.setAdapter(adapter = new RecyclerViewAdapter());
         mRecyclerView.addOnScrollListener(new RecyclerOnScrollListener(this));
-        addView(mRecyclerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mRecyclerView);
 
+        addView(mRecyclerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        for (int i = 0; i < getChildCount(); i++) {
-            View view = getChildAt(i);
-            if (view instanceof Banner.IndicatorAble) {
-                mIndicatorLayout = (Banner.IndicatorAble) view;
-            }
-        }
-    }
 
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
@@ -104,15 +91,21 @@ public class RecyclerBanner extends FrameLayout {
      * @param playing 开始播放
      */
     private synchronized void setPlaying(boolean playing) {
-        if (isAutoPlaying) {
+        if (isAutoPlay) {
             if (!isPlaying && playing && adapter != null && adapter.getItemCount() > 2) {
-                handler.postDelayed(task, mInterval);
+                mHandler.postDelayed(task, interval);
                 isPlaying = true;
             } else if (isPlaying && !playing) {
-                handler.removeCallbacksAndMessages(null);
+                mHandler.removeCallbacksAndMessages(null);
                 isPlaying = false;
             }
         }
+    }
+
+
+    @Override
+    public void execute(List datas) {
+        setBannerData(datas);
     }
 
 
@@ -122,24 +115,26 @@ public class RecyclerBanner extends FrameLayout {
      * @param data
      * @return
      */
-    public RecyclerBanner setBannerData(List data) {
+    private void setBannerData(List data) {
         setPlaying(false);
-        mData.clear();
+        getBannerData().clear();
         if (data != null) {
-            mData.addAll(data);
+            getBannerData().addAll(data);
         }
-        if (mData.size() < 2) {
-            currentIndex = 0;
-            mIndicatorLayout.initIndicator(data.size());
+        if (getBannerData().size() < 2) {
+            mCurrentItem = 0;
+
             adapter.notifyDataSetChanged();
-            return this;
+            return;
         }
-        currentIndex = mData.size() * 1000;
+        if (mIndicatorAble != null) {
+            mIndicatorAble.initIndicator(data.size());
+        }
+        mCurrentItem = getBannerData().size() * 1000;
         adapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(currentIndex);
+        mRecyclerView.scrollToPosition(mCurrentItem);
         setPlaying(true);
         adapter.notifyDataSetChanged();
-        return this;
     }
 
 
@@ -218,8 +213,8 @@ public class RecyclerBanner extends FrameLayout {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = null;
-            if (onCreateBannerItemViewListener != null) {
-                view = onCreateBannerItemViewListener.onCreateBannerItemView(parent, viewType);
+            if (createViewCallBack != null) {
+                view = createViewCallBack.createView(parent.getContext(), parent, viewType);
             }
             if (view == null) {
                 view = createImageView(parent.getContext());
@@ -227,8 +222,9 @@ public class RecyclerBanner extends FrameLayout {
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onBannerItemClickListener != null) {
-                        onBannerItemClickListener.onItemClick(currentIndex % mData.size());
+                    if (onClickBannerListener != null) {
+                        int position = mCurrentItem % getBannerData().size();
+                        onClickBannerListener.onClickBanner(v, getItemData(position), position);
                     }
                 }
             });
@@ -239,14 +235,15 @@ public class RecyclerBanner extends FrameLayout {
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-            if (onBindBannerItemViewListener != null) {
-                onBindBannerItemViewListener.onBindBannerItemView(holder.itemView, getItemData(position % mData.size()), position % mData.size());
+            if (bindViewCallBack != null) {
+                int pos = position % getBannerData().size();
+                bindViewCallBack.bindView(holder.itemView, getItemData(pos), position);
             }
         }
 
         @Override
         public int getItemCount() {
-            return mData == null ? 0 : mData.size() < 2 ? mData.size() : Integer.MAX_VALUE;
+            return getBannerData() == null ? 0 : getBannerData().size() < 2 ? getBannerData().size() : Integer.MAX_VALUE;
         }
     }
 
@@ -257,43 +254,15 @@ public class RecyclerBanner extends FrameLayout {
      * @return
      */
     public Object getItemData(int postion) {
-        if (mData == null || mData.size() <= postion || postion < 0) {
+        if (getBannerData() == null || getBannerData().size() <= postion || postion < 0) {
             return null;
         }
-        return mData.get(postion);
+        return getBannerData().get(postion);
     }
 
     public static int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 Resources.getSystem().getDisplayMetrics());
-    }
-
-
-    public interface OnCreateBannerItemViewListener {
-        View onCreateBannerItemView(ViewGroup parent, int viewType);
-    }
-
-    public RecyclerBanner createBannerItemView(OnCreateBannerItemViewListener onCreateBannerItemViewListener) {
-        this.onCreateBannerItemViewListener = onCreateBannerItemViewListener;
-        return this;
-    }
-
-    public interface OnBindBannerItemViewListener {
-        void onBindBannerItemView(View itemView, Object ob, int position);
-    }
-
-    public RecyclerBanner bindBannerItemView(OnBindBannerItemViewListener listener) {
-        this.onBindBannerItemViewListener = listener;
-        return this;
-    }
-
-    public interface OnBannerItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public RecyclerBanner setOnBannerItemClickListener(OnBannerItemClickListener onBannerItemClickListener) {
-        this.onBannerItemClickListener = onBannerItemClickListener;
-        return this;
     }
 
 
@@ -318,11 +287,11 @@ public class RecyclerBanner extends FrameLayout {
                 if (banner == null) {
                     return;
                 }
-                if (firstIndex == lastIndex && banner.currentIndex != lastIndex) {
-                    banner.currentIndex = lastIndex;
+                if (firstIndex == lastIndex && banner.mCurrentItem != lastIndex) {
+                    banner.mCurrentItem = lastIndex;
                     if (banner.isTouched) {
                         banner.isTouched = false;
-                        //banner.mIndicatorLayout.changeIndicator(banner.currentIndex);
+                        //banner.mIndicatorAble.changeIndicator(banner.mCurrentItem);
                     }
                 }
             }
@@ -333,11 +302,11 @@ public class RecyclerBanner extends FrameLayout {
     /**
      * 定时轮播
      */
-    private static class AutoPlayTask implements Runnable {
+    private static class HandlerTask implements Runnable {
 
         WeakReference<RecyclerBanner> bannerWeakRef;
 
-        AutoPlayTask(RecyclerBanner recyclerBanner) {
+        HandlerTask(RecyclerBanner recyclerBanner) {
             bannerWeakRef = new WeakReference<RecyclerBanner>(recyclerBanner);
         }
 
@@ -347,11 +316,12 @@ public class RecyclerBanner extends FrameLayout {
             if (banner == null) {
                 return;
             }
-            banner.mRecyclerView.smoothScrollToPosition(++banner.currentIndex);
-//            if (banner.isShowIndicator) {
-//                banner.mIndicatorLayout.changeIndicator(banner.currentIndex);
-//            }
-            banner.handler.postDelayed(this, banner.mInterval);
+            banner.mRecyclerView.smoothScrollToPosition(++banner.mCurrentItem);
+            
+            if (banner.mIndicatorAble != null) {
+                banner.mIndicatorAble.onBannerSelected(banner.mCurrentItem,banner.getBannerData().size(),banner.getBannerData().get(banner.mCurrentItem));
+            }
+            banner.mHandler.postDelayed(this, banner.interval);
         }
     }
 

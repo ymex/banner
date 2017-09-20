@@ -15,6 +15,7 @@ import com.example.banner.entity.DateBox;
 import java.util.List;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.callback.BindViewCallBack;
 
 /**
  * Created by ymex on 2017/9/10.
@@ -91,7 +92,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void fillBanner(Banner banner) {
 
-        banner.bindView(new Banner.BindViewCallBack<AppCompatImageView, BanneModel>() {
+        banner.bindView(new BindViewCallBack<AppCompatImageView, BanneModel>() {
             @Override
             public void bindView(AppCompatImageView view, BanneModel data, int position) {
                 //图片加载

@@ -16,12 +16,13 @@ import android.widget.TextView;
 import com.example.banner.entity.BanneModel;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.core.IndicatorAble;
 
 /**
  * 实现Banner.IndicatorAble 接口的布局都可以作为 指示器
  */
 
-public class TitleIndicatorLayout extends FrameLayout implements Banner.IndicatorAble{
+public class TitleIndicatorLayout extends FrameLayout implements IndicatorAble {
 
     private TextView tvTitle;
     private TextView tvPage;

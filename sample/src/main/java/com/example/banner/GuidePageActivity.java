@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.callback.BindViewCallBack;
 
 public class GuidePageActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class GuidePageActivity extends AppCompatActivity {
         banner = (Banner) findViewById(R.id.banner);
 
         banner.setPageTransformer(new StackTransformer())
-                .bindView(new Banner.BindViewCallBack<AppCompatImageView, Integer>() {
+                .bindView(new BindViewCallBack<AppCompatImageView, Integer>() {
             @Override
             public void bindView(AppCompatImageView view, Integer data, int position) {
                 Glide.with(view.getContext()).load(data).into(view);

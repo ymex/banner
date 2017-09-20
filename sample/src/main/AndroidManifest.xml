@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"/>
-
         <activity android:name=".DefaultBannerActivity"/>
         <activity android:name=".CustomBannerActivity"/>
         <activity android:name=".VerticalBannerActivity"/>
@@ -21,6 +20,13 @@
         <activity
             android:name=".GuidePageActivity"
             android:theme="@style/AppTheme.NoActionBar.FullPage">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".RecyclerBannerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

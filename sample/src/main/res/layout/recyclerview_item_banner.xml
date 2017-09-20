@@ -13,7 +13,7 @@
         app:banner_orientation="horizontal"
         app:banner_interval="3000">
 
-        <cn.ymex.widget.banner.IndicatorLayout
+        <cn.ymex.widget.banner.core.IndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

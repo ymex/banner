@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,9 @@ import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.callback.BindViewCallBack;
+import cn.ymex.widget.banner.callback.CreateViewCallBack;
+import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 public class CustomBannerActivity extends AppCompatActivity {
     private Banner banner;
@@ -26,17 +30,16 @@ public class CustomBannerActivity extends AppCompatActivity {
         banner = (Banner) findViewById(R.id.banner);
 
         banner  //创建布局
-                .createView(new Banner.CreateViewCallBack() {
+                .createView(new CreateViewCallBack() {
                     @Override
-                    public View createView(Context context) {
-
+                    public View createView(Context context, ViewGroup parent, int viewType) {
                         View view = LayoutInflater.from(context).inflate(R.layout.custom_banner_page, null);
 
                         return view;
                     }
                 })
                 //布局处理
-                .bindView(new Banner.BindViewCallBack<View, BanneModel>() {
+                .bindView(new BindViewCallBack<View, BanneModel>() {
 
                     @Override
                     public void bindView(View view, BanneModel data, int position) {
@@ -50,7 +53,7 @@ public class CustomBannerActivity extends AppCompatActivity {
 
                 })
                 //点击事件
-                .setOnClickBannerListener(new Banner.OnClickBannerListener<View, BanneModel>() {
+                .setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
 
                     @Override
                     public void onClickBanner(View view, BanneModel data, int position) {

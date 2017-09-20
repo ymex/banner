@@ -71,7 +71,7 @@ compile 'cn.ymex:banner:1.2.1'
     app:banner_auto_play="true"
     app:banner_interval="5000">
 
-    <cn.ymex.widget.banner.IndicatorLayout
+    <cn.ymex.widget.banner.core.IndicatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

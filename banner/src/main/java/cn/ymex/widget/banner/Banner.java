@@ -1,7 +1,6 @@
 package cn.ymex.widget.banner;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.AttrRes;
@@ -16,36 +15,35 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ymex.banner.R;
+import cn.ymex.widget.banner.callback.CreateViewCallBack;
+import cn.ymex.widget.banner.core.BannerPager;
+import cn.ymex.widget.banner.core.BaseBanner;
+import cn.ymex.widget.banner.core.IndicatorAble;
 
 /**
  * viewpage  banner
  */
 
-public class Banner extends FrameLayout implements ViewPager.OnPageChangeListener {
+public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChangeListener {
 
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
 
     private BannerPager mBannerPage;
-    private List<Object> mData;
+
     private List<View> mItemViews;
-    private Handler mHandler;
+
+
     private HandlerTask mHandlerTask;
-    private int mCurrentItem;
+
+    private IndicatorAble mIndicatorAble;
+
 
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
-    private int interval = 5 * 1000;//间隔-毫秒
-    private boolean isAutoPlay = true;//自动播放
-    private boolean isVertical = false;//纵向滚动
-    private boolean isLoop = true;//是否循环滚动
 
     public Banner(@NonNull Context context) {
         this(context, null);
@@ -57,17 +55,17 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     public Banner(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Banner(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
+        init(context, attrs, defStyleAttr);
     }
 
-    private void init(@Nullable AttributeSet attrs) {
-        dealAttrs(attrs);
+    protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        super.init(context, attrs, defStyleAttr);
         mHandler = new Handler();
         mHandlerTask = new HandlerTask(this);
         mBannerPage = new BannerPager(getContext());
@@ -75,7 +73,9 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         mBannerPage.setFocusable(true);
         mBannerPage.addOnPageChangeListener(this);
         addView(mBannerPage, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
     }
+
 
     @Override
     protected void onFinishInflate() {
@@ -88,33 +88,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
     }
 
-    private void dealAttrs(AttributeSet attrs) {
-        if (attrs == null) {
-            return;
-        }
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
-        interval = typedArray.getInt(R.styleable.Banner_banner_interval, interval);
-        isAutoPlay = typedArray.getBoolean(R.styleable.Banner_banner_auto_play, isAutoPlay);
-        isLoop = typedArray.getBoolean(R.styleable.Banner_banner_loop, isLoop);
-        isVertical = (typedArray.getInt(R.styleable.Banner_banner_orientation, 0) == VERTICAL);
-        typedArray.recycle();
-    }
-
-
-    public Banner createView(CreateViewCallBack listener) {
-        this.createViewCallBack = listener;
-        return this;
-    }
-
-    public Banner bindView(BindViewCallBack bindViewCallBack) {
-        this.bindViewCallBack = bindViewCallBack;
-        return this;
-    }
-
-    public Banner setOnClickBannerListener(OnClickBannerListener onClickBannerListener) {
-        this.onClickBannerListener = onClickBannerListener;
-        return this;
-    }
 
     /**
      * 设置转换动画
@@ -192,9 +165,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return mBannerPage;
     }
 
-    /**
-     * 开始运行
-     */
+    @Override
     public <T extends Object> void execute(List<T> imagesData) {
         stopAutoPlay();
         getItemViews().clear();
@@ -237,7 +208,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     private void generateItemViews() {
         boolean def = true;
-        if (this.createViewCallBack != null && createViewCallBack.createView(getContext()) != null) {
+        if (this.createViewCallBack != null && createViewCallBack.createView(getContext(), null, 0) != null) {
             def = false;
         }
 
@@ -250,12 +221,12 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             if (def) {
                 this.createViewCallBack = new CreateViewCallBack<AppCompatImageView>() {
                     @Override
-                    public AppCompatImageView createView(Context context) {
+                    public AppCompatImageView createView(Context context, ViewGroup parent, int viewType) {
                         return createImageView(context);
                     }
                 };
             }
-            View view = createViewCallBack.createView(getContext());
+            View view = createViewCallBack.createView(getContext(), null, 0);
             getItemViews().add(view);
             int index = positionIndex(i);
 
@@ -303,12 +274,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return view;
     }
 
-    public List<Object> getBannerData() {
-        if (mData == null) {
-            mData = new ArrayList<Object>();
-        }
-        return mData;
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -496,60 +461,4 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
 
-    private CreateViewCallBack createViewCallBack;
-
-    /**
-     * 创建自定义view
-     */
-    public interface CreateViewCallBack<T extends View> {
-        /**
-         * 创建自定义view
-         *
-         * @param context context
-         * @return view
-         */
-        T createView(Context context);
-    }
-
-    private BindViewCallBack bindViewCallBack;
-
-    /**
-     * 绑定view
-     */
-    public interface BindViewCallBack<V extends View, T> {
-        /**
-         * 绑定view
-         *
-         * @param view     自定义的布局
-         * @param data     banner数据
-         * @param position 位置
-         */
-        void bindView(V view, T data, int position);
-    }
-
-
-    private OnClickBannerListener onClickBannerListener;
-
-    /**
-     * 点击事件
-     */
-    public interface OnClickBannerListener<V extends View, T extends Object> {
-        void onClickBanner(V view, T data, int position);
-    }
-
-
-    private IndicatorAble mIndicatorAble;
-
-    /**
-     * 自定义导航器
-     */
-    public interface IndicatorAble {
-        void onBannerScrolled(int position, float positionOffset, int positionOffsetPixels);
-
-        void onBannerScrollStateChanged(int state);
-
-        void onBannerSelected(int position, int size, Object object);
-
-        void initIndicator(int size);
-    }
 }
