@@ -196,6 +196,13 @@ public class RecyclerBanner extends BaseBanner {
     }
 
 
+    private int positionIndex() {
+        if (getBannerData().size() == 0) {
+            return 0;
+        }
+        return mCurrentItem % getBannerData().size();
+    }
+
     /**
      * RecyclerView适配器
      */
@@ -223,7 +230,7 @@ public class RecyclerBanner extends BaseBanner {
                 @Override
                 public void onClick(View v) {
                     if (onClickBannerListener != null) {
-                        int position = mCurrentItem % getBannerData().size();
+                        int position = positionIndex();
                         onClickBannerListener.onClickBanner(v, getItemData(position), position);
                     }
                 }
@@ -291,7 +298,10 @@ public class RecyclerBanner extends BaseBanner {
                     banner.mCurrentItem = lastIndex;
                     if (banner.isTouched) {
                         banner.isTouched = false;
-                        //banner.mIndicatorAble.changeIndicator(banner.mCurrentItem);
+                        if (banner.mIndicatorAble != null) {
+                            int position = banner.positionIndex();
+                            banner.mIndicatorAble.onBannerSelected(position,banner.getBannerData().size(),banner.getBannerData().get(position));
+                        }
                     }
                 }
             }
@@ -317,9 +327,10 @@ public class RecyclerBanner extends BaseBanner {
                 return;
             }
             banner.mRecyclerView.smoothScrollToPosition(++banner.mCurrentItem);
-            
+
             if (banner.mIndicatorAble != null) {
-                banner.mIndicatorAble.onBannerSelected(banner.mCurrentItem,banner.getBannerData().size(),banner.getBannerData().get(banner.mCurrentItem));
+                int position = banner.positionIndex();
+                banner.mIndicatorAble.onBannerSelected(position,banner.getBannerData().size(),banner.getBannerData().get(position));
             }
             banner.mHandler.postDelayed(this, banner.interval);
         }
