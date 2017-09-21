@@ -32,4 +32,12 @@
         android:layout_height="wrap_content"
         android:padding="16dip"
         android:text="RecyclerBanner 基于RecyclerView 实现，具体使用方法可以参考Banner，所有公开方法都相同。"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_margin="16dip"
+        android:text="animation"
+        android:background="#f0f0f0"
+        android:onClick="onAnimationClick"
+        android:textColor="#666666"
+        android:layout_height="36dip"/>
 </LinearLayout>

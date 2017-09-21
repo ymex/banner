@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -27,7 +26,7 @@ import cn.ymex.banner.R;
 
 /**
  * RecyclerViewPager
- *
+ * <p>
  * RecyclerViewPager source code from :
  * https://github.com/lsjwzh/RecyclerViewPager
  *
@@ -205,49 +204,11 @@ public class RecyclerViewPager extends RecyclerView {
             mPositionBeforeScroll = getCurrentPosition();
         }
         mSmoothScrollTargetPosition = position;
+
         if (getLayoutManager() != null && getLayoutManager() instanceof LinearLayoutManager) {
             // exclude item decoration
-            LinearSmoothScroller linearSmoothScroller =
-                    new LinearSmoothScroller(getContext()) {
-                        @Override
-                        public PointF computeScrollVectorForPosition(int targetPosition) {
-                            if (getLayoutManager() == null) {
-                                return null;
-                            }
-                            return ((LinearLayoutManager) getLayoutManager())
-                                    .computeScrollVectorForPosition(targetPosition);
-                        }
-
-                        @Override
-                        protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
-                            if (getLayoutManager() == null) {
-                                return;
-                            }
-                            int dx = calculateDxToMakeVisible(targetView,
-                                    getHorizontalSnapPreference());
-                            int dy = calculateDyToMakeVisible(targetView,
-                                    getVerticalSnapPreference());
-                            if (dx > 0) {
-                                dx = dx - getLayoutManager()
-                                        .getLeftDecorationWidth(targetView);
-                            } else {
-                                dx = dx + getLayoutManager()
-                                        .getRightDecorationWidth(targetView);
-                            }
-                            if (dy > 0) {
-                                dy = dy - getLayoutManager()
-                                        .getTopDecorationHeight(targetView);
-                            } else {
-                                dy = dy + getLayoutManager()
-                                        .getBottomDecorationHeight(targetView);
-                            }
-                            final int distance = (int) Math.sqrt(dx * dx + dy * dy);
-                            final int time = calculateTimeForDeceleration(distance);
-                            if (time > 0) {
-                                action.update(-dx, -dy, time, mDecelerateInterpolator);
-                            }
-                        }
-
+            SingleLinearScroller scroller =
+                    new SingleLinearScroller(getContext()) {
                         @Override
                         protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
                             return mMillisecondsPerInch / displayMetrics.densityDpi;
@@ -267,11 +228,11 @@ public class RecyclerViewPager extends RecyclerView {
                         }
                     };
 
-            linearSmoothScroller.setTargetPosition(position);
+            scroller.setTargetPosition(position);
             if (position == RecyclerView.NO_POSITION) {
                 return;
             }
-            getLayoutManager().startSmoothScroll(linearSmoothScroller);
+            getLayoutManager().startSmoothScroll(scroller);
         } else {
             super.smoothScrollToPosition(position);
         }

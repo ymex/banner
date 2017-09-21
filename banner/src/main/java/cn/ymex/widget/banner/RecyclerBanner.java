@@ -75,9 +75,9 @@ public class RecyclerBanner extends BaseBanner {
             return;
         }
         if (isVertical) {
-            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         } else {
-            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
     }
 
@@ -121,7 +121,7 @@ public class RecyclerBanner extends BaseBanner {
     }
 
 
-    public RecyclerView getRecyclerView() {
+    public LoopRecyclerViewPager getRecyclerView() {
         return mRecyclerView;
     }
 
@@ -251,38 +251,6 @@ public class RecyclerBanner extends BaseBanner {
             ++banner.mCurrentItem;
             banner.mRecyclerView.smoothScrollToPosition(banner.mCurrentItem);
             banner.mHandler.postDelayed(this, banner.interval);
-        }
-    }
-
-
-    /**
-     * 控制滚动速度
-     */
-    private class SmoothLinearLayoutManager extends LinearLayoutManager {
-        private float MILLISECONDS_PER_INCH = 0.8f;
-
-        public SmoothLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
-            super(context, orientation, reverseLayout);
-        }
-
-        @Override
-        public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-            LinearSmoothScroller linearSmoothScroller =
-                    new LinearSmoothScroller(recyclerView.getContext()) {
-                        @Override
-                        public PointF computeScrollVectorForPosition(int targetPosition) {
-                            return super.computeScrollVectorForPosition(targetPosition);
-                        }
-
-                        //This returns the milliseconds it takes to scroll one pixel.
-                        @Override
-                        protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                            return MILLISECONDS_PER_INCH / displayMetrics.density;
-                        }
-
-                    };
-            linearSmoothScroller.setTargetPosition(position);
-            startSmoothScroll(linearSmoothScroller);
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.banner;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,18 +34,18 @@ public class RecyclerBannerActivity extends AppCompatActivity {
 
     private void recycleBanner(RecyclerBanner bannerView) {
         bannerView.bindView(new BindViewCallBack() {
-                    @Override
-                    public void bindView(View view, Object data, int position) {
-                        ImageView imageView = view.findViewById(R.id.imageView);
-                        TextView textView = view.findViewById(R.id.title);
-                        BanneModel entity = (BanneModel) data;
+            @Override
+            public void bindView(View view, Object data, int position) {
+                ImageView imageView = view.findViewById(R.id.imageView);
+                TextView textView = view.findViewById(R.id.title);
+                BanneModel entity = (BanneModel) data;
 
-                        textView.setText(entity.getTitle());
-                        Glide.with(view.getContext())
-                                .load(entity.getUrl())
-                                .into(imageView);
-                    }
-                })
+                textView.setText(entity.getTitle());
+                Glide.with(view.getContext())
+                        .load(entity.getUrl())
+                        .into(imageView);
+            }
+        })
                 .createView(new CreateViewCallBack() {
                     @Override
                     public View createView(Context context, ViewGroup parent, int viewType) {
@@ -54,9 +55,48 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                 .setOnClickBannerListener(new OnClickBannerListener() {
                     @Override
                     public void onClickBanner(View view, Object data, int position) {
-                        Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel)data).getTitle(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel) data).getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 }).execute(DateBox.banneModels());
     }
 
+    public void onAnimationClick(View view) {
+
+        final RecyclerBanner.LoopRecyclerViewPager recyclerView = recyclerBanner.getRecyclerView();
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
+                int childCount = recyclerView.getChildCount();
+                int width = recyclerView.getChildAt(0).getWidth();
+                int padding = (recyclerView.getWidth() - width) / 2;
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+    }
 }
