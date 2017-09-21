@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     case 5:
                         intent.setClassName(getPackageName(), DefaultBannerActivity.class.getName());
                         break;
+
                     case 2:
                         intent.setClassName(getPackageName(), CustomBannerActivity.class.getName());
                         break;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 6:
                         intent.setClassName(getPackageName(), IndicatorBannerActivity.class.getName());
+                        break;
+                    case 7:
+                        intent.setClassName(getPackageName(), RecyclerBannerActivity.class.getName());
 
                         break;
 
@@ -67,17 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> recycleAdapterData() {
         return new ArrayList<String>() {{
-            add("banner");
-            add("默认banner使用");
-            add("定制banner");
+            add("banner");//0
+            add("默认banner使用");//1
+            add("定制banner");//2
             add("banner滚动方向/垂直/水平");// 3
 
-            add("动画支持");
+            add("动画支持");//4
 
-            add("默认指示器使用");
-            add("定制指示器");
+            add("默认指示器使用");//5
+            add("定制指示器");//6
 
-            add("bann方法及参数介绍");
+            add("RecyclerBanner使用");//7
+            add("bann方法及参数介绍");//8
         }};
     }
 

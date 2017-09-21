@@ -38,7 +38,7 @@ public class RecyclerViewPager extends RecyclerView {
     private RecyclerAdapter<?> mViewPagerAdapter;
     private float mTriggerOffset = 0.25f;
     private float mFlingFactor = 0.15f;
-    private float mMillisecondsPerInch = 12f;
+    private float mMillisecondsPerInch = 25f;
     private float mTouchSpan;
     private List<OnPageChangedListener> mOnPageChangedListeners;
     private int mSmoothScrollTargetPosition = -1;

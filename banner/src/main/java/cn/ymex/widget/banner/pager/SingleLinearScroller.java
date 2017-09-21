@@ -23,7 +23,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 /**
@@ -38,11 +40,10 @@ import android.view.animation.LinearInterpolator;
  */
 public class SingleLinearScroller extends RecyclerView.SmoothScroller {
 
-    private static final String TAG = "LinearSmoothScroller";
 
     private static final boolean DEBUG = false;
 
-    private static final float MILLISECONDS_PER_INCH = 12f;
+    private static final float MILLISECONDS_PER_INCH = 25f;
 
     private static final int TARGET_SEEK_SCROLL_DISTANCE_PX = 10000;
 
@@ -81,9 +82,9 @@ public class SingleLinearScroller extends RecyclerView.SmoothScroller {
     // scrolling slows down and reschedule another interim target scroll
     private static final float TARGET_SEEK_EXTRA_SCROLL_RATIO = 1.2f;
 
-    protected final DecelerateInterpolator mLinearInterpolator = new DecelerateInterpolator(); //new LinearInterpolator();
+    protected final Interpolator mLinearInterpolator = new AccelerateDecelerateInterpolator(); //new LinearInterpolator();
 
-    protected final DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator();
+    protected final Interpolator mDecelerateInterpolator = new AccelerateDecelerateInterpolator();//new DecelerateInterpolator();
 
     protected PointF mTargetVector;
 
