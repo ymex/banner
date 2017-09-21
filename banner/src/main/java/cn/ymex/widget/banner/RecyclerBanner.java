@@ -1,7 +1,6 @@
 package cn.ymex.widget.banner;
 
 import android.content.Context;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.AttrRes;
@@ -10,11 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ViewHolderDelegate;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,7 +208,6 @@ public class RecyclerBanner extends BaseBanner {
 
         @Override
         public int getItemCount() {
-            System.out.println("----------getItemCount:" + getBannerData().size());
             return getBannerData().size();
         }
     }
@@ -368,7 +364,7 @@ public class RecyclerBanner extends BaseBanner {
 
         /**
          * Starts a smooth scroll to an adapter position.
-         * if position < adapter.getActualCount,
+         * if position less adapter.getActualCount,
          * position will be transform to right position.
          *
          * @param position target position
@@ -387,7 +383,7 @@ public class RecyclerBanner extends BaseBanner {
 
         /**
          * Starts a scroll to an adapter position.
-         * if position < adapter.getActualCount,
+         * if position less adapter.getActualCount,
          * position will be transform to right position.
          *
          * @param position target position

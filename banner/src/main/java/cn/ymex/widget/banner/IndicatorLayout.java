@@ -1,4 +1,4 @@
-package cn.ymex.widget.banner.core;
+package cn.ymex.widget.banner;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import cn.ymex.banner.R;
 import cn.ymex.widget.banner.Banner;
+import cn.ymex.widget.banner.core.IndicatorAble;
 
 /**
  * 指示器
