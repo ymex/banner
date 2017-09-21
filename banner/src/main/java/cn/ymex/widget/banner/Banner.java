@@ -21,7 +21,6 @@ import java.util.List;
 
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
 import cn.ymex.widget.banner.core.BaseBanner;
-import cn.ymex.widget.banner.core.IndicatorAble;
 import cn.ymex.widget.banner.pager.BannerPager;
 
 /**
@@ -32,14 +31,8 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
 
     private BannerPager mBannerPage;
-
     private List<View> mItemViews;
-
-
     private HandlerTask mHandlerTask;
-
-    private IndicatorAble mIndicatorAble;
-
 
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
@@ -102,7 +95,6 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
      *
      * @param orientation 滚动方向 HORIZONTAL VERTICAL
      * @return Banner
-     *
      */
     @Override
     public Banner setOrientation(int orientation) {

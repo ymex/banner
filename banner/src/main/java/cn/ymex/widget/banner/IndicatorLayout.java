@@ -3,6 +3,7 @@ package cn.ymex.widget.banner;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import cn.ymex.banner.R;
-import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.core.IndicatorAble;
 
 /**
@@ -24,8 +24,8 @@ import cn.ymex.widget.banner.core.IndicatorAble;
 
 public class IndicatorLayout extends LinearLayout implements IndicatorAble {
 
-    private static final int DEF_CURRENT_COLOR = 0XFFFFFFFF;
-    private static final int DEF_NORMAL_COLOR = 0X88FFFFFF;
+    private static final int DEF_SELECTED_COLOR = 0XFFFFFFFF;
+    private static final int DEF_UNSELECTED_COLOR = 0X88FFFFFF;
 
     private Drawable mSelectedDrawable;
     private Drawable mUnSelectedDrawable;
@@ -34,6 +34,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     private int mIndicatorHeight;
     private int mIndicatorMargin;
     private int mIndicatorCount;
+    private int mIndicatorShap;
 
     private static int dip4 = dp2px(4);
 
@@ -78,13 +79,21 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
         mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_margin, dip4);
         mSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_selected);
         mUnSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_unselected);
-        typedArray.recycle();
+
+        mIndicatorShap = typedArray.getInt(R.styleable.IndicatorLayout_indicator_shape, 0);
+
+
         if (mSelectedDrawable == null) {
-            mSelectedDrawable = defDrawable(DEF_CURRENT_COLOR, mIndicatorWidth, mIndicatorHeight);
+            mSelectedDrawable = createDrawable(DEF_SELECTED_COLOR, mIndicatorWidth, mIndicatorHeight);
+        } else if (mSelectedDrawable instanceof ColorDrawable) {
+            mSelectedDrawable = createDrawable(((ColorDrawable) mSelectedDrawable).getColor(), mIndicatorWidth, mIndicatorHeight);
         }
         if (mUnSelectedDrawable == null) {
-            mUnSelectedDrawable = defDrawable(DEF_NORMAL_COLOR, mIndicatorWidth, mIndicatorHeight);
+            mUnSelectedDrawable = createDrawable(DEF_UNSELECTED_COLOR, mIndicatorWidth, mIndicatorHeight);
+        } else if (mUnSelectedDrawable instanceof ColorDrawable) {
+            mSelectedDrawable = createDrawable(((ColorDrawable) mUnSelectedDrawable).getColor(), mIndicatorWidth, mIndicatorHeight);
         }
+        typedArray.recycle();
     }
 
 
@@ -94,10 +103,12 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
      * @param height height
      * @return Drawable
      */
-    private GradientDrawable defDrawable(int color, int width, int height) {
+    private GradientDrawable createDrawable(int color, int width, int height) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setSize(width, height);
-        gradientDrawable.setCornerRadius(width);
+        if (mIndicatorShap == 0) {
+            gradientDrawable.setCornerRadius(width > height ? width : height);
+        }
         gradientDrawable.setColor(color);
         return gradientDrawable;
     }
@@ -158,7 +169,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            lp.rightMargin = lp.leftMargin = lp.topMargin = lp.bottomMargin = mIndicatorMargin / 2;
+            lp.rightMargin = lp.leftMargin = lp.topMargin = lp.bottomMargin = mIndicatorMargin;
 
             if (mIndicatorWidth >= dip4) { // 设置了indicatorSize属性
                 lp.width = lp.height = mIndicatorWidth;

@@ -20,9 +20,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="8dip"
+            app:indicator_selected="@color/colorAccent"
             android:gravity="center"
-            app:indicator_height="8dip"
-            app:indicator_width="8dip" />
+            app:indicator_shape="circular"
+            app:indicator_height="10dip"
+            app:indicator_width="10dip" />
     </cn.ymex.widget.banner.Banner>
     <TextView
         android:layout_marginTop="16dip"

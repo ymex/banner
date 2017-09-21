@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Banner">
-        <attr name="banner_interval" format="integer"/>
-        <attr name="banner_auto_play" format="boolean"/>
-        <attr name="banner_loop" format="boolean"/>
+        <attr name="banner_interval" format="integer" />
+        <attr name="banner_auto_play" format="boolean" />
+        <attr name="banner_loop" format="boolean" />
         <attr name="banner_orientation" format="enum">
-            <enum name="horizontal" value="0"/>
-            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
         </attr>
     </declare-styleable>
     <declare-styleable name="IndicatorLayout">
-        <attr name="indicator_width" format="dimension"/>
-        <attr name="indicator_height" format="dimension"/>
-        <attr name="indicator_margin" format="dimension"/>
-        <attr name="indicator_selected" format="color|reference"/>
-        <attr name="indicator_unselected" format="color|reference"/>
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_selected" format="color|reference" />
+        <attr name="indicator_unselected" format="color|reference" />
+        <attr name="indicator_shape" format="enum">
+            <enum name="circular" value="0" />
+            <enum name="rectangle" value="1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="RecyclerViewPager">
         <attr name="triggerOffset" format="float" />
         <attr name="flingFactor" format="float" />
         <attr name="singlePageFling" format="boolean" />
-        <attr name="inertia" format="boolean"/>
+        <attr name="inertia" format="boolean" />
         <attr name="millisecondsPerInch" format="float" />
     </declare-styleable>
 </resources>

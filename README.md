@@ -52,12 +52,12 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ### IndicatorLayout属性
 | 属性        | 解释   |
 | --------   | :-----:  |
-|indicator_width|圆点的宽|
-|indicator_height|圆点的高|
-|indicator_margin|圆点的间距|
-|indicator_selected|选中图片|
-|indicator_unselected|未选中图片|
-
+|indicator_width|indicator的宽|
+|indicator_height|indicator的高|
+|indicator_margin|indicator的间距|
+|indicator_selected|选中图片或颜色|
+|indicator_unselected|未选中图片或颜色|
+|indicator_shape|indicator的形状，circular（默认），rectangle|
  
 
 ## 使用

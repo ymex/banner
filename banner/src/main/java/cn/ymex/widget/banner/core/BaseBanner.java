@@ -70,6 +70,9 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
         return mData;
     }
 
+    public int getCurrentItem() {
+        return mCurrentItem;
+    }
 
     /**
      * 设置指示器
