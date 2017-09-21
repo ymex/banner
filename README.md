@@ -14,6 +14,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 `RecyclerBanner`组件基于`RecyclerView`扩展。`RecyclerBanner`在内存占用和帧率上占有一定优势,
 但动画效果不如`Banner`容易实现。<br>
 
+## 效果
 1、app引导页控件<br>
 2、轮播图控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)<br>
@@ -109,6 +110,6 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
 
-感谢：
+## 感谢：
 
 - RecyclerViewPager： https://github.com/lsjwzh/RecyclerViewPager
