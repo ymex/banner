@@ -54,7 +54,7 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                 .setOnClickBannerListener(new OnClickBannerListener() {
                     @Override
                     public void onClickBanner(View view, Object data, int position) {
-                        Toast.makeText(RecyclerBannerActivity.this, "position: " + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel)data).getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 }).execute(DateBox.banneModels());
     }

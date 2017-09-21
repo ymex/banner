@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ymex.banner.R;
-import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
 import cn.ymex.widget.banner.callback.OnClickBannerListener;
@@ -81,10 +79,11 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
      */
     public T setIndicatorable(IndicatorAble mIndicatorAble) {
         this.mIndicatorAble = mIndicatorAble;
-        return (T)this;
+        return (T) this;
     }
 
     public abstract T setOrientation(int orientation);
+
     public abstract T setLoop(boolean loop);
 
     private void dealAttrs(Context context, AttributeSet attrs) {

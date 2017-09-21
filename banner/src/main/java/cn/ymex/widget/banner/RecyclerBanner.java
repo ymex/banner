@@ -192,9 +192,8 @@ public class RecyclerBanner extends BaseBanner {
                 @Override
                 public void onClick(View v) {
                     if (onClickBannerListener != null) {
-                        //点击事件
-                        //int position = positionIndex();
-                        //onClickBannerListener.onClickBanner(v, getItemData(position), position);
+                        int index = positionIndex(mCurrentItem);
+                        onClickBannerListener.onClickBanner(v, getItemData(index), index);
                     }
                 }
             });

@@ -5,25 +5,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.banner.RecyclerBannerActivity">
 
     <cn.ymex.widget.banner.RecyclerBanner
         android:id="@+id/rccycler_banner"
         android:layout_width="match_parent"
         android:layout_height="240dip"
-        app:banner_interval="3000"
         app:banner_auto_play="true"
-        app:banner_loop = "true"
-        app:banner_orientation="vertical">
+        app:banner_interval="5000"
+        app:banner_loop="true"
+        app:banner_orientation="horizontal">
 
         <cn.ymex.widget.banner.core.IndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="8dip"
-            android:background="@color/colorPrimary"
             android:gravity="center"
             app:indicator_height="8dip"
             app:indicator_width="8dip"/>
     </cn.ymex.widget.banner.RecyclerBanner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dip"
+        android:text="RecyclerBanner 基于RecyclerView 实现，具体使用方法可以参考Banner，所有公开方法都相同。"/>
 </LinearLayout>

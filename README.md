@@ -26,19 +26,19 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 
 ## 相关属性及方法
 
-### banner部分方法
+### banner 及 RecyclerBanner部分方法
 | 方法        | 解释   |
 | --------   | :-----:  |
 |createView()|创建banner 的布局|
 |bindView()|处理banner控件元素|
 |execute()|填充数据并展示|
 |setOnClickBannerListener()|点击事件|
-|setPageTransformer()|设置转换动画|
 |setOrientation()|滚动方向|
 |setIndicatorable()|设置指示器|
+|setPageTransformer()|设置转换动画，仅Banner有此方法|
 
 
-### banner属性
+### Banner及 RecyclerBanner属性
 
 
 | 属性        | 解释   |
@@ -57,8 +57,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 |indicator_selected|选中图片|
 |indicator_unselected|未选中图片|
 
-
-
+ 
 
 ## 使用
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 
@@ -110,5 +109,6 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
 
-感谢他们：
-RecyclerViewPager： https://github.com/lsjwzh/RecyclerViewPager
+感谢：
+
+- RecyclerViewPager： https://github.com/lsjwzh/RecyclerViewPager

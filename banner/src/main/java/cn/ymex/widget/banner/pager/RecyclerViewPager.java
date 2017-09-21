@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ymex.banner.BuildConfig;
 import cn.ymex.banner.R;
 
 /**
@@ -33,12 +34,12 @@ import cn.ymex.banner.R;
  * @author Green
  */
 public class RecyclerViewPager extends RecyclerView {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = BuildConfig.DEBUG;
 
     private RecyclerAdapter<?> mViewPagerAdapter;
     private float mTriggerOffset = 0.25f;
     private float mFlingFactor = 0.15f;
-    private float mMillisecondsPerInch = 25f;
+    private float mMillisecondsPerInch = 12f;
     private float mTouchSpan;
     private List<OnPageChangedListener> mOnPageChangedListeners;
     private int mSmoothScrollTargetPosition = -1;
