@@ -12,7 +12,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
-import cn.ymex.widget.banner.core.BannerPager;
 import cn.ymex.widget.banner.core.BaseBanner;
 import cn.ymex.widget.banner.core.IndicatorAble;
+import cn.ymex.widget.banner.pager.BannerPager;
 
 /**
  * viewpage  banner
@@ -77,18 +76,6 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
     }
 
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        for (int i = 0; i < getChildCount(); i++) {
-            View view = getChildAt(i);
-            if (view instanceof IndicatorAble) {
-                setIndicatorable((IndicatorAble) view);
-            }
-        }
-    }
-
-
     /**
      * 设置转换动画
      *
@@ -115,7 +102,9 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
      *
      * @param orientation 滚动方向 HORIZONTAL VERTICAL
      * @return Banner
+     *
      */
+    @Override
     public Banner setOrientation(int orientation) {
         this.isVertical = orientation == VERTICAL;
         if (mBannerPage != null) {
@@ -146,16 +135,6 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         return this;
     }
 
-    /**
-     * 设置指示器
-     *
-     * @param mIndicatorAble
-     * @return
-     */
-    public Banner setIndicatorable(IndicatorAble mIndicatorAble) {
-        this.mIndicatorAble = mIndicatorAble;
-        return this;
-    }
 
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
         this.onPageChangeListener = onPageChangeListener;
@@ -194,14 +173,16 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     }
 
+    @Override
     public void startAutoPlay() {
-        if (isAutoPlay && isLoop) {
+        if (isAutoPlay && isLoop && getBannerData().size() > 2) {
             mHandler.removeCallbacks(mHandlerTask);
             mHandler.postDelayed(mHandlerTask, interval);
         }
 
     }
 
+    @Override
     public void stopAutoPlay() {
         mHandler.removeCallbacks(mHandlerTask);
     }
@@ -245,7 +226,8 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         }
     }
 
-    private int positionIndex(int postion) {
+    @Override
+    protected int positionIndex(int postion) {
         if (!isLoop) {
             return postion;
         }
@@ -259,65 +241,6 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         return index;
     }
 
-    /**
-     * banner 默认布局
-     *
-     * @param context context
-     * @return AppCompatImageView
-     */
-    private AppCompatImageView createImageView(Context context) {
-        AppCompatImageView view = new AppCompatImageView(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        view.setLayoutParams(params);
-        view.setScaleType(AppCompatImageView.ScaleType.FIT_XY);
-        return view;
-    }
-
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (isAutoPlay) {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN://0
-                    stopAutoPlay();
-                    break;
-                case MotionEvent.ACTION_CANCEL://3
-                case MotionEvent.ACTION_UP://1
-                case MotionEvent.ACTION_OUTSIDE://4
-                    startAutoPlay();
-                    break;
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        if (isAutoPlay) {
-            startAutoPlay();
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        stopAutoPlay();
-    }
-
-    /**
-     * @param visibility visibility
-     */
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        if (visibility == GONE || visibility == INVISIBLE) {
-            stopAutoPlay();
-        } else if (visibility == VISIBLE && isAutoPlay) {
-            startAutoPlay();
-        }
-        super.onWindowVisibilityChanged(visibility);
-    }
 
     @Override
     public void onPageScrollStateChanged(int state) {
@@ -405,7 +328,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
     }
 
     /**
-     * PagerAdapter
+     * RecyclerAdapter
      */
 
     private List<View> getItemViews() {

@@ -1,7 +1,6 @@
 package cn.ymex.widget.banner;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.PointF;
 import android.os.Build;
 import android.os.Handler;
@@ -10,15 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ViewHolderDelegate;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,18 +23,14 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cn.ymex.widget.banner.core.BaseBanner;
+import cn.ymex.widget.banner.pager.RecyclerViewPager;
 
 public class RecyclerBanner extends BaseBanner {
 
 
-    private RecyclerView mRecyclerView;
-    private PagerSnapHelper snapHelper;
+    private LoopRecyclerViewPager mRecyclerView;
     private RecyclerViewAdapter adapter;
     private HandlerTask task;
-
-    private int startX, startY;
-    private boolean isTouched;
-    private boolean isPlaying;//是否在正滚动
 
 
     public RecyclerBanner(@NonNull Context context) {
@@ -66,18 +59,65 @@ public class RecyclerBanner extends BaseBanner {
         mHandler = new Handler();
         task = new HandlerTask(this);
 
-        mRecyclerView = new RecyclerView(context);
-        if (isVertical) {
-            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        }else {
-            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        }
-        mRecyclerView.setAdapter(adapter = new RecyclerViewAdapter());
-        mRecyclerView.addOnScrollListener(new RecyclerOnScrollListener(this));
-        snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView = new LoopRecyclerViewPager(context);
+        mRecyclerView.setSinglePageFling(true);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLongClickable(true);
+
+        onPageChanged(mRecyclerView);
+        runDirection(mRecyclerView);
 
         addView(mRecyclerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    private void runDirection(RecyclerViewPager mRecyclerView) {
+        if (mRecyclerView == null) {
+            return;
+        }
+        if (isVertical) {
+            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        } else {
+            mRecyclerView.setLayoutManager(new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        }
+    }
+
+    @Override
+    public BaseBanner setOrientation(int orientation) {
+        this.isVertical = orientation == VERTICAL;
+        runDirection(mRecyclerView);
+        return this;
+    }
+
+
+    @Override
+    public BaseBanner setLoop(boolean loop) {
+        this.isLoop = loop;
+        return this;
+    }
+
+    @Override
+    protected int positionIndex(int postion) {
+
+        int count = getBannerData().size();
+        int index = 0;
+        if (count != 0) {
+            index = mCurrentItem % getBannerData().size();
+        }
+        return index;
+    }
+
+    private void onPageChanged(RecyclerViewPager mRecyclerView) {
+        mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
+            @Override
+            public void OnPageChanged(int oldPosition, int newPosition) {
+                int size = getBannerData().size();
+                mCurrentItem = newPosition;
+                if (mIndicatorAble != null && size > 0) {
+                    int index = positionIndex(mCurrentItem);
+                    mIndicatorAble.onBannerSelected(index, size, getBannerData().get(index));
+                }
+            }
+        });
     }
 
 
@@ -85,23 +125,19 @@ public class RecyclerBanner extends BaseBanner {
         return mRecyclerView;
     }
 
-    /**
-     * 设置是否自动播放（上锁）
-     *
-     * @param playing 开始播放
-     */
-    private synchronized void setPlaying(boolean playing) {
-        if (isAutoPlay) {
-            if (!isPlaying && playing && adapter != null && adapter.getItemCount() > 2) {
-                mHandler.postDelayed(task, interval);
-                isPlaying = true;
-            } else if (isPlaying && !playing) {
-                mHandler.removeCallbacksAndMessages(null);
-                isPlaying = false;
-            }
+
+    @Override
+    public void startAutoPlay() {
+        if (isAutoPlay && isLoop && getBannerData().size() > 2) {
+            mHandler.removeCallbacks(task);
+            mHandler.postDelayed(task, interval);
         }
     }
 
+    @Override
+    public void stopAutoPlay() {
+        mHandler.removeCallbacks(task);
+    }
 
     @Override
     public void execute(List datas) {
@@ -116,106 +152,32 @@ public class RecyclerBanner extends BaseBanner {
      * @return
      */
     private void setBannerData(List data) {
-        setPlaying(false);
+        stopAutoPlay();
         getBannerData().clear();
         if (data != null) {
             getBannerData().addAll(data);
         }
         if (getBannerData().size() < 2) {
-            mCurrentItem = 0;
-
             adapter.notifyDataSetChanged();
             return;
         }
         if (mIndicatorAble != null) {
             mIndicatorAble.initIndicator(data.size());
         }
-        mCurrentItem = getBannerData().size() * 1000;
+
+        mRecyclerView.setCanLoop(isLoop);
+        mRecyclerView.setAdapter(adapter = new RecyclerViewAdapter());
+
+        startAutoPlay();
         adapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(mCurrentItem);
-        setPlaying(true);
-        adapter.notifyDataSetChanged();
     }
 
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = (int) ev.getX();
-                startY = (int) ev.getY();
-                getParent().requestDisallowInterceptTouchEvent(true);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int moveX = (int) ev.getX();
-                int moveY = (int) ev.getY();
-                int disX = moveX - startX;
-                int disY = moveY - startY;
-                boolean hasMoved = 2 * Math.abs(disX) > Math.abs(disY);
-                getParent().requestDisallowInterceptTouchEvent(hasMoved);
-                if (hasMoved) {
-                    setPlaying(false);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                if (!isPlaying) {
-                    isTouched = true;
-                    setPlaying(true);
-                }
-                break;
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        setPlaying(true);
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        setPlaying(false);
-    }
-
-    /**
-     * 当视图不可见时不滚动
-     *
-     * @param visibility visibility
-     */
-    @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        if (visibility == GONE || visibility == INVISIBLE) {
-            setPlaying(false);
-        } else if (visibility == VISIBLE) {
-            setPlaying(true);
-        }
-        super.onWindowVisibilityChanged(visibility);
-    }
-
-
-    private int positionIndex() {
-        if (getBannerData().size() == 0) {
-            return 0;
-        }
-        return mCurrentItem % getBannerData().size();
-    }
 
     /**
      * RecyclerView适配器
      */
     private class RecyclerViewAdapter extends RecyclerView.Adapter {
 
-        private AppCompatImageView createImageView(Context context) {
-            AppCompatImageView view = new AppCompatImageView(context);
-            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            view.setLayoutParams(params);
-            view.setScaleType(AppCompatImageView.ScaleType.FIT_XY);
-            return view;
-        }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -230,8 +192,9 @@ public class RecyclerBanner extends BaseBanner {
                 @Override
                 public void onClick(View v) {
                     if (onClickBannerListener != null) {
-                        int position = positionIndex();
-                        onClickBannerListener.onClickBanner(v, getItemData(position), position);
+                        //点击事件
+                        //int position = positionIndex();
+                        //onClickBannerListener.onClickBanner(v, getItemData(position), position);
                     }
                 }
             });
@@ -243,16 +206,17 @@ public class RecyclerBanner extends BaseBanner {
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
             if (bindViewCallBack != null) {
-                int pos = position % getBannerData().size();
-                bindViewCallBack.bindView(holder.itemView, getItemData(pos), position);
+                bindViewCallBack.bindView(holder.itemView, getItemData(position), position);
             }
         }
 
         @Override
         public int getItemCount() {
-            return getBannerData() == null ? 0 : getBannerData().size() < 2 ? getBannerData().size() : Integer.MAX_VALUE;
+            System.out.println("----------getItemCount:" + getBannerData().size());
+            return getBannerData().size();
         }
     }
+
 
     /**
      * 获取数据
@@ -265,47 +229,6 @@ public class RecyclerBanner extends BaseBanner {
             return null;
         }
         return getBannerData().get(postion);
-    }
-
-    public static int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                Resources.getSystem().getDisplayMetrics());
-    }
-
-
-    /**
-     * recyclerView 滚支监听
-     */
-    private static class RecyclerOnScrollListener extends RecyclerView.OnScrollListener {
-        WeakReference<RecyclerBanner> bannerRef;
-
-        public RecyclerOnScrollListener(RecyclerBanner recyclerBanner) {
-            bannerRef = new WeakReference<RecyclerBanner>(recyclerBanner);
-        }
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                int firstIndex = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                int lastIndex = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-                RecyclerBanner banner = bannerRef.get();
-                if (banner == null) {
-                    return;
-                }
-                if (firstIndex == lastIndex && banner.mCurrentItem != lastIndex) {
-                    banner.mCurrentItem = lastIndex;
-                    if (banner.isTouched) {
-                        banner.isTouched = false;
-                        if (banner.mIndicatorAble != null) {
-                            int position = banner.positionIndex();
-                            banner.mIndicatorAble.onBannerSelected(position,banner.getBannerData().size(),banner.getBannerData().get(position));
-                        }
-                    }
-                }
-            }
-        }
     }
 
 
@@ -326,35 +249,9 @@ public class RecyclerBanner extends BaseBanner {
             if (banner == null) {
                 return;
             }
-            banner.mRecyclerView.smoothScrollToPosition(++banner.mCurrentItem);
-
-            if (banner.mIndicatorAble != null) {
-                int position = banner.positionIndex();
-                banner.mIndicatorAble.onBannerSelected(position,banner.getBannerData().size(),banner.getBannerData().get(position));
-            }
+            ++banner.mCurrentItem;
+            banner.mRecyclerView.smoothScrollToPosition(banner.mCurrentItem);
             banner.mHandler.postDelayed(this, banner.interval);
-        }
-    }
-
-
-    /**
-     * 控制位置
-     */
-    private class PagerSnapHelper extends LinearSnapHelper {
-
-        @Override
-        public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-            int targetPos = super.findTargetSnapPosition(layoutManager, velocityX, velocityY);
-            final View currentView = findSnapView(layoutManager);
-
-            if (targetPos != RecyclerView.NO_POSITION && currentView != null) {
-                int currentPos = layoutManager.getPosition(currentView);
-                int firstIndex = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-                int lastIndex = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                currentPos = targetPos < currentPos ? lastIndex : (targetPos > currentPos ? firstIndex : currentPos);
-                targetPos = targetPos < currentPos ? currentPos - 1 : (targetPos > currentPos ? currentPos + 1 : currentPos);
-            }
-            return targetPos;
         }
     }
 
@@ -363,7 +260,7 @@ public class RecyclerBanner extends BaseBanner {
      * 控制滚动速度
      */
     private class SmoothLinearLayoutManager extends LinearLayoutManager {
-        private float MILLISECONDS_PER_INCH = 0.66f;
+        private float MILLISECONDS_PER_INCH = 0.8f;
 
         public SmoothLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
             super(context, orientation, reverseLayout);
@@ -390,4 +287,222 @@ public class RecyclerBanner extends BaseBanner {
         }
     }
 
+
+    public class LoopRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+            extends RecyclerViewPager.RecyclerAdapter<VH> {
+
+
+        public LoopRecyclerAdapter(RecyclerViewPager viewPager, RecyclerView.Adapter<VH> adapter) {
+            super(viewPager, adapter);
+        }
+
+
+        public int getActualItemCount() {
+            return super.getItemCount();
+        }
+
+        public int getActualItemViewType(int position) {
+            return super.getItemViewType(position);
+        }
+
+        public long getActualItemId(int position) {
+            return super.getItemId(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            if (getActualItemCount() > 0) {
+                return Integer.MAX_VALUE;
+            } else {
+                return super.getItemCount();
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (getActualItemCount() > 0) {
+                return super.getItemViewType(getActualPosition(position));
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return super.getItemId(getActualPosition(position));
+        }
+
+        @Override
+        public void onBindViewHolder(VH holder, int position) {
+            super.onBindViewHolder(holder, getActualPosition(position));
+            // because of getCurrentPosition may return ViewHolder‘s position,
+            // so we must reset mPosition if exists.
+            ViewHolderDelegate.setPosition(holder, position);
+        }
+
+        public int getActualPosition(int position) {
+            int actualPosition = position;
+            if (getActualItemCount() > 0 && position >= getActualItemCount()) {
+                actualPosition = position % getActualItemCount();
+            }
+            return actualPosition;
+        }
+    }
+
+
+    public class LoopRecyclerViewPager extends RecyclerViewPager {
+        private boolean canLoop = true;
+
+        public void setCanLoop(boolean canLoop) {
+            this.canLoop = canLoop;
+        }
+
+        public LoopRecyclerViewPager(Context context) {
+            this(context, null);
+        }
+
+        public LoopRecyclerViewPager(Context context, AttributeSet attrs) {
+            this(context, attrs, 0);
+        }
+
+        public LoopRecyclerViewPager(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        public void setAdapter(Adapter adapter) {
+            super.setAdapter(adapter);
+            if (canLoop) {
+                super.scrollToPosition(getMiddlePosition());
+            }
+        }
+
+        @Override
+        public void swapAdapter(Adapter adapter, boolean removeAndRecycleExistingViews) {
+            super.swapAdapter(adapter, removeAndRecycleExistingViews);
+            if (canLoop) {
+                super.scrollToPosition(getMiddlePosition());
+            }
+        }
+
+        @Override
+        @NonNull
+        protected RecyclerViewPager.RecyclerAdapter ensureRecyclerViewPagerAdapter(Adapter adapter) {
+
+            if (canLoop) {
+                return (adapter instanceof LoopRecyclerAdapter)
+                        ? (LoopRecyclerAdapter) adapter
+                        : new LoopRecyclerAdapter(this, adapter);
+            }
+            return super.ensureRecyclerViewPagerAdapter(adapter);
+
+
+        }
+
+        /**
+         * Starts a smooth scroll to an adapter position.
+         * if position < adapter.getActualCount,
+         * position will be transform to right position.
+         *
+         * @param position target position
+         */
+        @Override
+        public void smoothScrollToPosition(int position) {
+            if (canLoop) {
+                int transformedPosition = transformInnerPositionIfNeed(position);
+                super.smoothScrollToPosition(transformedPosition);
+                Log.e("test", "transformedPosition:" + transformedPosition);
+                return;
+            }
+            super.smoothScrollToPosition(position);
+
+        }
+
+        /**
+         * Starts a scroll to an adapter position.
+         * if position < adapter.getActualCount,
+         * position will be transform to right position.
+         *
+         * @param position target position
+         */
+        @Override
+        public void scrollToPosition(int position) {
+            if (canLoop) {
+                super.scrollToPosition(transformInnerPositionIfNeed(position));
+                return;
+            }
+            super.scrollToPosition(position);
+        }
+
+        /**
+         * get actual current position in actual adapter.
+         */
+        public int getActualCurrentPosition() {
+            int position = getCurrentPosition();
+            return transformToActualPosition(position);
+        }
+
+        /**
+         * Transform adapter position to actual position.
+         *
+         * @param position adapter position
+         * @return actual position
+         */
+        public int transformToActualPosition(int position) {
+            if (getAdapter() == null || getAdapter().getItemCount() < 0) {
+                return 0;
+            }
+            return position % getActualItemCountFromAdapter();
+        }
+
+        private int getActualItemCountFromAdapter() {
+            return ((LoopRecyclerAdapter) getWrapperAdapter()).getActualItemCount();
+        }
+
+        private int transformInnerPositionIfNeed(int position) {
+            final int actualItemCount = getActualItemCountFromAdapter();
+            if (actualItemCount == 0)
+                return actualItemCount;
+            final int actualCurrentPosition = getCurrentPosition() % actualItemCount;
+            int bakPosition1 = getCurrentPosition()
+                    - actualCurrentPosition
+                    + position % actualItemCount;
+            int bakPosition2 = getCurrentPosition()
+                    - actualCurrentPosition
+                    - actualItemCount
+                    + position % actualItemCount;
+            int bakPosition3 = getCurrentPosition()
+                    - actualCurrentPosition
+                    + actualItemCount
+                    + position % actualItemCount;
+            Log.e("test", bakPosition1 + "/" + bakPosition2 + "/" + bakPosition3 + "/" + getCurrentPosition());
+            // get position which is closer to current position
+            if (Math.abs(bakPosition1 - getCurrentPosition()) > Math.abs(bakPosition2 -
+                    getCurrentPosition())) {
+                if (Math.abs(bakPosition2 -
+                        getCurrentPosition()) > Math.abs(bakPosition3 -
+                        getCurrentPosition())) {
+                    return bakPosition3;
+                }
+                return bakPosition2;
+            } else {
+                if (Math.abs(bakPosition1 -
+                        getCurrentPosition()) > Math.abs(bakPosition3 -
+                        getCurrentPosition())) {
+                    return bakPosition3;
+                }
+                return bakPosition1;
+            }
+        }
+
+        private int getMiddlePosition() {
+            int middlePosition = Integer.MAX_VALUE / 2;
+            final int actualItemCount = getActualItemCountFromAdapter();
+            if (actualItemCount > 0 && middlePosition % actualItemCount != 0) {
+                middlePosition = middlePosition - middlePosition % actualItemCount;
+            }
+
+            return middlePosition;
+        }
+    }
 }
