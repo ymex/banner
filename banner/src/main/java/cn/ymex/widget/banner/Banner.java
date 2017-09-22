@@ -128,10 +128,30 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
     }
 
 
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
+    /**
+     * BannerPager  onPageChangeListener
+     * @param onPageChangeListener onPageChangeListener
+     * @return Banner
+     */
+    public Banner setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
         this.onPageChangeListener = onPageChangeListener;
+        return this;
     }
 
+    /**
+     * BannerPager extends viewpager
+     * @return BannerPager
+     */
+    public BannerPager getPageView() {
+        return mBannerPage;
+    }
+
+
+    /**
+     * see getPageView
+     * @deprecated
+     * @return
+     */
     public BannerPager getBannerPage() {
         return mBannerPage;
     }
@@ -163,6 +183,15 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
         startAutoPlay();
 
+    }
+
+    /**
+     * 返回当前page 索引
+     * @return
+     */
+    @Override
+    public int getCurrentItem() {
+        return mCurrentItem;
     }
 
     @Override

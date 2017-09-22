@@ -52,9 +52,9 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ### IndicatorLayout属性
 | 属性        | 解释   |
 | --------   | :-----:  |
-|indicator_width|indicator的宽|
-|indicator_height|indicator的高|
-|indicator_margin|indicator的间距|
+|indicator_width|indicator的宽,默认8dip|
+|indicator_height|indicator的高,默认8dip|
+|indicator_margin|indicator的间距,默认4dip|
 |indicator_selected|选中图片或颜色|
 |indicator_unselected|未选中图片或颜色|
 |indicator_shape|indicator的形状，circular（默认），rectangle|
@@ -65,7 +65,7 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 `需要 v7 的包支持`，并引入banner lib.
 
 ```
-compile 'cn.ymex:banner:1.5.0'
+compile 'cn.ymex:banner:1.5.1'
 ```
 
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
@@ -109,6 +109,21 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 `RecyclerBanner`是基于RecyclerView 扩展而来的banner 。对于大量的数据很有帮助。
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
+
+##版本
+
+v1.6.0
+- 修复getCurrentItem()位置异常
+- 修复IndicatorLayout使用图片时宽高失控
+- 增加默认指示器indicator_shape 属性 
+- 重构部分方法
+
+v1.5.0
+- 重构Banner
+- 增加RecyclerBanner
+
+v1.x.x
+- banner ~
 
 ## 感谢：
 

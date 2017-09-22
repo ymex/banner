@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.5.0"
+        versionCode 12
+        versionName "1.6.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -33,7 +33,7 @@ publish {
     userOrg = 'ymex'
     groupId = 'cn.ymex'
     artifactId = 'banner'
-    publishVersion = '1.5.0'
+    publishVersion = '1.6.0'
     desc = 'banner for Android'
     website = 'https://github.com/ymex/banner'
 }

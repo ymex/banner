@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import cn.ymex.banner.R;
@@ -37,6 +38,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     private int mIndicatorShap;
 
     private static int dip4 = dp2px(4);
+    private static int dip8 = dp2px(8);
 
     public IndicatorLayout(Context context, int count) {
         this(context);
@@ -74,8 +76,8 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
             return;
         }
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.IndicatorLayout);
-        mIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_width, dip4);
-        mIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_height, dip4);
+        mIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_width, dip8);
+        mIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_height, dip8);
         mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_margin, dip4);
         mSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_selected);
         mUnSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_unselected);
@@ -165,19 +167,20 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
         }
         for (int i = 0; i < mIndicatorCount; i++) {
             AppCompatImageView imageView = new AppCompatImageView(getContext());
-
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-
             lp.rightMargin = lp.leftMargin = lp.topMargin = lp.bottomMargin = mIndicatorMargin;
 
-            if (mIndicatorWidth >= dip4) { // 设置了indicatorSize属性
-                lp.width = lp.height = mIndicatorWidth;
-            } else {
-                imageView.setMinimumWidth(dip4);
-                imageView.setMinimumHeight(dip4);
+            if (mIndicatorWidth != dip8) {
+                lp.width = mIndicatorWidth;
             }
+            if (mIndicatorHeight != dip8) {
+                lp.height = mIndicatorHeight;
+            }
+
             imageView.setImageDrawable(i == 0 ? mSelectedDrawable : mUnSelectedDrawable);
+
             addView(imageView, lp);
         }
     }

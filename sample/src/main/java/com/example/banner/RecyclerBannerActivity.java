@@ -62,7 +62,7 @@ public class RecyclerBannerActivity extends AppCompatActivity {
 
     public void onAnimationClick(View view) {
 
-        final RecyclerBanner.LoopRecyclerViewPager recyclerView = recyclerBanner.getRecyclerView();
+        final RecyclerBanner.LoopRecyclerViewPager recyclerView = (RecyclerBanner.LoopRecyclerViewPager) recyclerBanner.getPageView();
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

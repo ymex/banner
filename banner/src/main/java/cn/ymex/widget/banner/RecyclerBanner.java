@@ -118,7 +118,22 @@ public class RecyclerBanner extends BaseBanner {
     }
 
 
-    public LoopRecyclerViewPager getRecyclerView() {
+    /**
+     * 返回当前page 索引
+     *
+     * @return
+     */
+    @Override
+    public int getCurrentItem() {
+        return positionIndex(mCurrentItem);
+    }
+
+    /**
+     * RecyclerViewPager extends RecyclerView
+     *
+     * @return RecyclerViewPager
+     */
+    public RecyclerViewPager getPageView() {
         return mRecyclerView;
     }
 
