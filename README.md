@@ -65,7 +65,7 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 `需要 v7 的包支持`，并引入banner lib.
 
 ```
-compile 'cn.ymex:banner:1.5.1'
+compile 'cn.ymex:banner:1.6.0'
 ```
 
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,你可以随意定义其位置。如果 不使用指示器移除它就可以了。
