@@ -58,8 +58,6 @@ public class BannerPager extends ViewPager {
         if (!isVertical) {
             return this.canScroll && super.onInterceptTouchEvent(ev);
         }
-
-        getParent().requestDisallowInterceptTouchEvent(true);
         boolean intercepted = super.onInterceptTouchEvent(swapEventCoordinate(ev));
         swapEventCoordinate(ev);
         return intercepted;
@@ -77,7 +75,7 @@ public class BannerPager extends ViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-
+        getParent().requestDisallowInterceptTouchEvent(true);
         return super.dispatchTouchEvent(ev);
     }
 
@@ -97,7 +95,7 @@ public class BannerPager extends ViewPager {
 
 
     private class BannerScroller extends Scroller {
-        private int mDuration = 720;
+        private int mDuration = 520;
 
 
         public BannerScroller(Context context, Interpolator interpolator) {

@@ -130,6 +130,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     /**
      * BannerPager  onPageChangeListener
+     *
      * @param onPageChangeListener onPageChangeListener
      * @return Banner
      */
@@ -140,6 +141,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     /**
      * BannerPager extends viewpager
+     *
      * @return BannerPager
      */
     public BannerPager getPageView() {
@@ -149,8 +151,9 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     /**
      * see getPageView
-     * @deprecated
+     *
      * @return
+     * @deprecated
      */
     public BannerPager getBannerPage() {
         return mBannerPage;
@@ -187,6 +190,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     /**
      * 返回当前page 索引
+     *
      * @return
      */
     @Override
@@ -271,8 +275,6 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         if (mIndicatorAble != null) {
             mIndicatorAble.onBannerScrollStateChanged(state);
         }
-        mCurrentItem = mBannerPage.getCurrentItem();
-
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE:
                 computeCurrentItem();
@@ -289,18 +291,17 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         if (!isLoop) {
             return;
         }
-        int count = getBannerData().size();
-        if (mCurrentItem == count + 1) {
+        int size = getBannerData().size();
+        if (mCurrentItem == size + 1) {
             mBannerPage.setCurrentItem(mCurrentItem = 1, false);
         } else if (mCurrentItem == 0) {
-            mBannerPage.setCurrentItem(mCurrentItem = count, false);
+            mBannerPage.setCurrentItem(mCurrentItem = size, false);
         }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         position = positionIndex(position);
-
         if (onPageChangeListener != null) {
             onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
@@ -311,6 +312,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int position) {
+        mCurrentItem = position;
         position = positionIndex(position);
         if (onPageChangeListener != null) {
             onPageChangeListener.onPageSelected(position);
