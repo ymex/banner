@@ -17,6 +17,7 @@
         <activity android:name=".VerticalBannerActivity"/>
         <activity android:name=".AnimationBannerActivity"/>
         <activity android:name=".IndicatorBannerActivity"/>
+        <activity android:name=".ListviewBannerActivity"/>
         <activity
             android:name=".GuidePageActivity"
             android:theme="@style/AppTheme.NoActionBar.FullPage">

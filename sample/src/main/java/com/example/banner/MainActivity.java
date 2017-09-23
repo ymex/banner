@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
 
+                    case 8:
+                        intent.setClassName(getPackageName(), ListviewBannerActivity.class.getName());
+
+                        break;
+
                     default:
                         intent.setAction("android.intent.action.VIEW");
                         Uri content_url = Uri.parse("https://github.com/ymex/banner");
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             add("定制指示器");//6
 
             add("RecyclerBanner使用");//7
+            add("ListView Header");
             add("bann方法及参数介绍");//8
         }};
     }
