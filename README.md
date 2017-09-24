@@ -112,6 +112,9 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 
 ##版本
 
+v1.6.1
+- source
+
 v1.6.0
 - 修复getCurrentItem()位置异常
 - 修复IndicatorLayout使用图片时宽高失控
