@@ -47,20 +47,22 @@ public class BannerPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!isVertical) {
-            return this.canScroll && super.onTouchEvent(ev);
+        if (isVertical) {
+            return this.canScroll && super.onTouchEvent(swapEventCoordinate(ev));
         }
-        return super.onTouchEvent(swapEventCoordinate(ev));
+        return this.canScroll && super.onTouchEvent(ev);
+
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!isVertical) {
-            return this.canScroll && super.onInterceptTouchEvent(ev);
+        if (isVertical) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+            boolean intercepted = super.onInterceptTouchEvent(swapEventCoordinate(ev));
+            swapEventCoordinate(ev);
+            return this.canScroll && intercepted;
         }
-        boolean intercepted = super.onInterceptTouchEvent(swapEventCoordinate(ev));
-        swapEventCoordinate(ev);
-        return intercepted;
+        return this.canScroll && super.onInterceptTouchEvent(ev);
     }
 
 
@@ -75,7 +77,6 @@ public class BannerPager extends ViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        getParent().requestDisallowInterceptTouchEvent(true);
         return super.dispatchTouchEvent(ev);
     }
 

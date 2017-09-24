@@ -183,9 +183,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         } else {
             mBannerPage.setCanScroll(true);
         }
-
         startAutoPlay();
-
     }
 
     /**
