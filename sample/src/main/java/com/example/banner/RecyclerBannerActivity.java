@@ -57,7 +57,7 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                     public void onClickBanner(View view, Object data, int position) {
                         Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel) data).getTitle(), Toast.LENGTH_SHORT).show();
                     }
-                }).execute(DateBox.banneModels());
+                }).execute(DateBox.banneModels().subList(0,2));
     }
 
     public void onAnimationClick(View view) {

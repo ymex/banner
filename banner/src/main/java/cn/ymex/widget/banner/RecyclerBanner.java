@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ViewHolderDelegate;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -377,101 +376,11 @@ public class RecyclerBanner extends BaseBanner {
 
         }
 
-        /**
-         * Starts a smooth scroll to an adapter position.
-         * if position less adapter.getActualCount,
-         * position will be transform to right position.
-         *
-         * @param position target position
-         */
-        @Override
-        public void smoothScrollToPosition(int position) {
-            if (canLoop) {
-                int transformedPosition = transformInnerPositionIfNeed(position);
-                super.smoothScrollToPosition(transformedPosition);
-                Log.e("test", "transformedPosition:" + transformedPosition);
-                return;
-            }
-            super.smoothScrollToPosition(position);
-
-        }
-
-        /**
-         * Starts a scroll to an adapter position.
-         * if position less adapter.getActualCount,
-         * position will be transform to right position.
-         *
-         * @param position target position
-         */
-        @Override
-        public void scrollToPosition(int position) {
-            if (canLoop) {
-                super.scrollToPosition(transformInnerPositionIfNeed(position));
-                return;
-            }
-            super.scrollToPosition(position);
-        }
-
-        /**
-         * get actual current position in actual adapter.
-         */
-        public int getActualCurrentPosition() {
-            int position = getCurrentPosition();
-            return transformToActualPosition(position);
-        }
-
-        /**
-         * Transform adapter position to actual position.
-         *
-         * @param position adapter position
-         * @return actual position
-         */
-        public int transformToActualPosition(int position) {
-            if (getAdapter() == null || getAdapter().getItemCount() < 0) {
-                return 0;
-            }
-            return position % getActualItemCountFromAdapter();
-        }
 
         private int getActualItemCountFromAdapter() {
             return ((LoopRecyclerAdapter) getWrapperAdapter()).getActualItemCount();
         }
 
-        private int transformInnerPositionIfNeed(int position) {
-            final int actualItemCount = getActualItemCountFromAdapter();
-            if (actualItemCount == 0)
-                return actualItemCount;
-            final int actualCurrentPosition = getCurrentPosition() % actualItemCount;
-            int bakPosition1 = getCurrentPosition()
-                    - actualCurrentPosition
-                    + position % actualItemCount;
-            int bakPosition2 = getCurrentPosition()
-                    - actualCurrentPosition
-                    - actualItemCount
-                    + position % actualItemCount;
-            int bakPosition3 = getCurrentPosition()
-                    - actualCurrentPosition
-                    + actualItemCount
-                    + position % actualItemCount;
-            Log.e("test", bakPosition1 + "/" + bakPosition2 + "/" + bakPosition3 + "/" + getCurrentPosition());
-            // get position which is closer to current position
-            if (Math.abs(bakPosition1 - getCurrentPosition()) > Math.abs(bakPosition2 -
-                    getCurrentPosition())) {
-                if (Math.abs(bakPosition2 -
-                        getCurrentPosition()) > Math.abs(bakPosition3 -
-                        getCurrentPosition())) {
-                    return bakPosition3;
-                }
-                return bakPosition2;
-            } else {
-                if (Math.abs(bakPosition1 -
-                        getCurrentPosition()) > Math.abs(bakPosition3 -
-                        getCurrentPosition())) {
-                    return bakPosition3;
-                }
-                return bakPosition1;
-            }
-        }
 
         private int getMiddlePosition() {
             int middlePosition = Integer.MAX_VALUE / 2;
