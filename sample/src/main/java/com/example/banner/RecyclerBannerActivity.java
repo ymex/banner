@@ -19,6 +19,7 @@ import cn.ymex.widget.banner.RecyclerBanner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
 import cn.ymex.widget.banner.callback.OnClickBannerListener;
+import cn.ymex.widget.banner.pager.RecyclerViewPager;
 
 public class RecyclerBannerActivity extends AppCompatActivity {
 
@@ -31,8 +32,12 @@ public class RecyclerBannerActivity extends AppCompatActivity {
         recyclerBanner = (RecyclerBanner) findViewById(R.id.rccycler_banner);
         recycleBanner(recyclerBanner);
     }
-
+    RecyclerViewPager mRecyclerView;
     private void recycleBanner(RecyclerBanner bannerView) {
+        //留边
+        //marginSide(bannerView);
+
+
         bannerView.bindView(new BindViewCallBack() {
             @Override
             public void bindView(View view, Object data, int position) {
@@ -57,7 +62,88 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                     public void onClickBanner(View view, Object data, int position) {
                         Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel) data).getTitle(), Toast.LENGTH_SHORT).show();
                     }
-                }).execute(DateBox.banneModels().subList(0,2));
+                }).execute(DateBox.banneModels());
+    }
+
+    private void marginSide(RecyclerBanner bannerView) {
+
+
+        mRecyclerView = bannerView.getPageView();
+        mRecyclerView.setPadding(130,0,130,0);
+
+        mRecyclerView.setClipToPadding(false);
+
+        mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (mRecyclerView.getChildCount() < 3) {
+                    if (mRecyclerView.getChildAt(1) != null) {
+                        if (mRecyclerView.getCurrentPosition() == 0) {
+                            View v1 = mRecyclerView.getChildAt(1);
+                            v1.setScaleY(0.9f);
+                            v1.setScaleX(0.9f);
+                        } else {
+                            View v1 = mRecyclerView.getChildAt(0);
+                            v1.setScaleY(0.9f);
+                            v1.setScaleX(0.9f);
+                        }
+                    }
+                } else {
+                    if (mRecyclerView.getChildAt(0) != null) {
+                        View v0 = mRecyclerView.getChildAt(0);
+                        v0.setScaleY(0.9f);
+                        v0.setScaleX(0.9f);
+                    }
+                    if (mRecyclerView.getChildAt(2) != null) {
+                        View v2 = mRecyclerView.getChildAt(2);
+                        v2.setScaleY(0.9f);
+                        v2.setScaleX(0.9f);
+                    }
+                }
+
+            }
+        });
+//
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+//                mPositionText.setText("First: " + mRecyclerViewPager.getFirstVisiblePosition());
+                int childCount = mRecyclerView.getChildCount();
+                int width = mRecyclerView.getChildAt(0).getWidth();
+                int padding = (mRecyclerView.getWidth() - width) / 2;
+//                mCountText.setText("Count: " + childCount);
+
+                for (int j = 0; j < childCount; j++) {
+                    View v = recyclerView.getChildAt(j);
+                    //往左 从 padding 到 -(v.getWidth()-padding) 的过程中，由大到小
+                    float rate = 0;
+                    ;
+                    if (v.getLeft() <= padding) {
+                        if (v.getLeft() >= padding - v.getWidth()) {
+                            rate = (padding - v.getLeft()) * 1f / v.getWidth();
+                        } else {
+                            rate = 1;
+                        }
+                        v.setScaleY(1 - rate * 0.1f);
+                        v.setScaleX(1 - rate * 0.1f);
+
+                    } else {
+                        //往右 从 padding 到 recyclerView.getWidth()-padding 的过程中，由大到小
+                        if (v.getLeft() <= recyclerView.getWidth() - padding) {
+                            rate = (recyclerView.getWidth() - padding - v.getLeft()) * 1f / v.getWidth();
+                        }
+                        v.setScaleY(0.9f + rate * 0.1f);
+                        v.setScaleX(0.9f + rate * 0.1f);
+                    }
+                }
+            }
+        });
+
     }
 
     public void onAnimationClick(View view) {
