@@ -93,7 +93,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
         if (mUnSelectedDrawable == null) {
             mUnSelectedDrawable = createDrawable(DEF_UNSELECTED_COLOR, mIndicatorWidth, mIndicatorHeight);
         } else if (mUnSelectedDrawable instanceof ColorDrawable) {
-            mSelectedDrawable = createDrawable(((ColorDrawable) mUnSelectedDrawable).getColor(), mIndicatorWidth, mIndicatorHeight);
+            mUnSelectedDrawable = createDrawable(((ColorDrawable) mUnSelectedDrawable).getColor(), mIndicatorWidth, mIndicatorHeight);
         }
         typedArray.recycle();
     }

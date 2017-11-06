@@ -39,7 +39,10 @@ public class AnimationBannerActivity extends AppCompatActivity {
 
             @Override
             public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件
-                Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(),
+                        "click position ：" + position + "\n标题：" + data.getTitle()+"\n动画："+transIndex
+                        , Toast.LENGTH_SHORT
+                ).show();
             }
 
         }).setPageTransformer(new CustPagerTransformer(this))//动画

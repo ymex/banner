@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            app:indicator_selected="@mipmap/icon_point_select"
-            app:indicator_unselected="@mipmap/icon_point_normal"/>
+            app:indicator_unselected="@color/colorPrimary"
+            app:indicator_selected="@color/colorAccent"/>
     </cn.ymex.widget.banner.Banner>
 
     <TextView
