@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 13
-        versionName "1.6.1"
+        versionCode 14
+        versionName "1.6.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,15 +25,15 @@ android {
 }
 
 dependencies {
-    provided 'com.android.support:appcompat-v7:26.+'
-    provided 'com.android.support:recyclerview-v7:26.0.0-alpha1'
+    provided 'com.android.support:appcompat-v7:26.1.0'
+    provided 'com.android.support:recyclerview-v7:26.1.0'
 }
 
 publish {
     userOrg = 'ymex'
     groupId = 'cn.ymex'
     artifactId = 'banner'
-    publishVersion = '1.6.1'
+    publishVersion = '1.6.2'
     desc = 'banner for Android'
     website = 'https://github.com/ymex/banner'
 }
