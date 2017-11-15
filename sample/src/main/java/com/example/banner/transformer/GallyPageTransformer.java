@@ -1,20 +1,20 @@
 package com.example.banner.transformer;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.View;
 
 /**
- * 实现ViewPager左右滑动时的时差
- * Created by xmuSistone on 2016/9/18.
+ * ViewPager左右滑动时的时差
  */
-public class CustPagerTransformer implements ViewPager.PageTransformer {
+public class GallyPageTransformer implements ViewPager.PageTransformer {
 
     private int maxTranslateOffsetX;
     private ViewPager viewPager;
 
-    public CustPagerTransformer(Context context) {
-        this.maxTranslateOffsetX = dp2px(context, 180);
+    public GallyPageTransformer() {
+        this.maxTranslateOffsetX = dip2px(180);
     }
 
     public void transformPage(View view, float position) {
@@ -35,11 +35,14 @@ public class CustPagerTransformer implements ViewPager.PageTransformer {
     }
 
     /**
-     * dp和像素转换
+     * dp to px
+     *
+     * @param dp dip
+     * @return int
      */
-    private int dp2px(Context context, float dipValue) {
-        float m = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * m + 0.5f);
+    public static int dip2px(float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                Resources.getSystem().getDisplayMetrics());
     }
 
 }

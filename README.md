@@ -15,7 +15,11 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 但动画效果不如`Banner`容易实现。<br>
 
 ## 效果
-1、app引导页控件<br>
+0、app引导页控件<br>
+
+1、Gallery 效果
+![png](https://github.com/ymex/banner/blob/master/art/gallery.png)<br>
+
 2、轮播图控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)<br>
 3、设置翻页动画<br>

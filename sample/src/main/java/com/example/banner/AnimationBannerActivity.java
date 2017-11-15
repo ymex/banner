@@ -11,7 +11,7 @@ import com.ToxicBakery.viewpager.transforms.*;
 import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
-import com.example.banner.transformer.CustPagerTransformer;
+import com.example.banner.transformer.GallyPageTransformer;
 
 import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
@@ -45,7 +45,7 @@ public class AnimationBannerActivity extends AppCompatActivity {
                 ).show();
             }
 
-        }).setPageTransformer(new CustPagerTransformer(this))//动画
+        }).setPageTransformer(new GallyPageTransformer())//动画
                 .execute(DateBox.banneModels());//填充数据
 
 

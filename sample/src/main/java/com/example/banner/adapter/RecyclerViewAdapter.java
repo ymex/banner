@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.example.banner.R;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
+import com.example.banner.entity.ItemActionModel;
 
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static final int TYPE_BANNER = 0x5;
     public static final int TYPE_ITEM = 0x6;
 
-    private List<String> datas;
+    private List<ItemActionModel> datas;
 
 
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<ItemActionModel> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -57,15 +58,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (getItemViewType(position) == TYPE_BANNER) {
             fillBanner(holder.banner);
         } else if (getItemViewType(position) == TYPE_ITEM) {
-            holder.tvTitle.setText(datas.get(position));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.itemClick(position);
-                    }
-                }
-            });
+            holder.tvTitle.setText(datas.get(position).getTitle());
+            holder.itemView.setOnClickListener(datas.get(position).getOnClickListener());
         }
     }
 
@@ -84,7 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             banner = itemView.findViewById(R.id.banner);
         }
     }
+
     private boolean isVertical = false;
+
     public void setBannerDirection(boolean vertical) {
         isVertical = vertical;
         notifyItemChanged(0);
@@ -101,17 +97,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .into(view);
             }
         }).execute(DateBox.banneModels());
-    }
-
-
-
-    private OnItemClickListener onItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-    public interface OnItemClickListener {
-        void itemClick(int position);
     }
 }
 

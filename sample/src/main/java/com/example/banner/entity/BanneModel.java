@@ -1,12 +1,16 @@
 package com.example.banner.entity;
 
+import android.view.View;
+
 /**
  * Created by ymex on 2017/9/2.
  */
 
 public class BanneModel {
+
     String url;
     String title ;
+    View.OnClickListener onClickListener;
 
     public BanneModel() {
 
@@ -31,5 +35,14 @@ public class BanneModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public BanneModel setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+        return this;
+    }
+
+    public View.OnClickListener getOnClickListener() {
+        return onClickListener;
     }
 }
