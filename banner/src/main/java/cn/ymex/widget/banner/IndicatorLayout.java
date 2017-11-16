@@ -3,6 +3,9 @@ package cn.ymex.widget.banner;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -36,9 +39,12 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     private int mIndicatorMargin;
     private int mIndicatorCount;
     private int mIndicatorShap;
+    private boolean mFlowIndicator;//指示器跟随
+
 
     private static int dip4 = dp2px(4);
     private static int dip8 = dp2px(8);
+
 
     public IndicatorLayout(Context context, int count) {
         this(context);
@@ -148,6 +154,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
 
     }
 
+
     @Override
     public void onBannerScrollStateChanged(int state) {
 
@@ -155,7 +162,11 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
 
     @Override
     public void onBannerSelected(int position, int size, Object object) {
-        changeIndicator(position);
+        if (!mFlowIndicator) {
+            changeIndicator(position);
+            return;
+        }
+        // TODO: 2017/11/16 指示器跟随处理
     }
 
     @Override
@@ -179,7 +190,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
                 lp.height = mIndicatorHeight;
             }
 
-            imageView.setImageDrawable(i == 0 ? mSelectedDrawable : mUnSelectedDrawable);
+            imageView.setImageDrawable(mFlowIndicator ? mUnSelectedDrawable : i == 0 ? mSelectedDrawable : mUnSelectedDrawable);
 
             addView(imageView, lp);
         }
@@ -195,5 +206,16 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
                         i == currentIndex % mIndicatorCount ? mSelectedDrawable : mUnSelectedDrawable);
             }
         }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+
     }
 }
