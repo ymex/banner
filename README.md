@@ -14,6 +14,13 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 `RecyclerBanner`组件基于`RecyclerView`扩展。`RecyclerBanner`在内存占用和帧率上占有一定优势,
 但动画效果不如`Banner`容易实现。<br>
 
+## gradle 引入
+
+```
+compile 'cn.ymex:banner:1.6.3'
+```
+
+
 ## 效果
 1、app引导页控件<br>
 
@@ -30,6 +37,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ![png](https://github.com/ymex/banner/blob/master/art/GIF-g.gif)<br>
 
 7、指示器跟随移动<br>
+
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-flow.gif)<br>
 
 ## 相关属性及方法
@@ -64,16 +72,21 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 |indicator_margin|indicator的间距,默认4dip|
 |indicator_selected|选中图片或颜色|
 |indicator_unselected|未选中图片或颜色|
-|indicator_flow|指示器是否随移动而滑动,默认false|
+|indicator_flow|指示器是否随banner移动而滑动,默认false|
 |indicator_shape|indicator的形状，circular（默认），rectangle|
 
 
 ## 使用
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 
-`需要 v7 的包支持`，并引入banner lib.
+`需要 appcompat-v7 和 recyclerview 扩展库支持`，并引入banner lib.
+
 
 ```
-compile 'cn.ymex:banner:1.6.2'
+compile 'cn.ymex:banner:1.6.3'
+
+//需要以下扩展库进行支持
+//compile 'com.android.support:appcompat-v7:26.1.0'
+//compile 'com.android.support:recyclerview-v7:26.1.0'
 ```
 
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,因 Banner 是一个FrameLayout，所以你可以随意定义其位置。<br>
@@ -157,7 +170,7 @@ banner.createView(new CreateViewCallBack() {
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
 
-##版本
+## 版本
 v1.6.3
 - 增加指示器滑动效果，由indicator_flow 属性控制
 
