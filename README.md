@@ -15,10 +15,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 但动画效果不如`Banner`容易实现。<br>
 
 ## 效果
-0、app引导页控件<br>
-
-1、Gallery 效果<br>
-![png](https://github.com/ymex/banner/blob/master/art/gallery.png)<br>
+1、app引导页控件<br>
 
 2、轮播图控件<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-d.gif)<br>
@@ -28,6 +25,12 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-i.gif)<br>
 5、垂直滚动<br>
 ![gif](https://github.com/ymex/banner/blob/master/art/GIF-v.gif)<br>
+
+6、Gallery 效果<br>
+![png](https://github.com/ymex/banner/blob/master/art/GIF-g.gif)<br>
+
+7、指示器跟随移动<br>
+![gif](https://github.com/ymex/banner/blob/master/art/GIF-flow.gif)<br>
 
 ## 相关属性及方法
 
@@ -61,8 +64,9 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 |indicator_margin|indicator的间距,默认4dip|
 |indicator_selected|选中图片或颜色|
 |indicator_unselected|未选中图片或颜色|
+|indicator_flow|指示器是否随移动而滑动,默认false|
 |indicator_shape|indicator的形状，circular（默认），rectangle|
- 
+
 
 ## 使用
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 
@@ -97,17 +101,55 @@ compile 'cn.ymex:banner:1.6.2'
 2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局。
 
 ```
+
 banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
     @Override
     public void bindView(AppCompatImageView view, BanneModel data, int position) {
-        //图片加载 
-        Glide.with(view.getContext())
+        Glide.with(view.getContext())//使用Glide框架进行图片加载
                 .load(data.getUrl())
                 .into(view);
     }
 }).execute(data());
 ```
 
+
+3.自定义banner page
+
+```
+
+banner.createView(new CreateViewCallBack() {
+    //创建布局
+    @Override
+    public View createView(Context context, ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_banner_page, null);
+
+        return view;
+    }
+})
+.bindView(new BindViewCallBack<View, BanneModel>() {
+    //布局处理
+    @Override
+    public void bindView(View view, BanneModel data, int position) {
+
+        ImageView imageView = view.findViewById(R.id.iv_image);
+        TextView tvTitle = view.findViewById(R.id.tv_title);
+
+        Glide.with(view.getContext()).load(data.getUrl()).into(imageView);
+        tvTitle.setText(data.getTitle());
+    }
+
+})
+.setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
+    //点击事件
+    @Override
+    public void onClickBanner(View view, BanneModel data, int position) {
+        Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+})
+.execute(DateBox.banneModels());//填充数据
+
+```
 
 ## RecyclerBanner
 
@@ -116,6 +158,9 @@ banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
 
 
 ##版本
+v1.6.3
+- 增加指示器滑动效果，由indicator_flow 属性控制
+
 
 v1.6.2
 - 修复RecyclerBanner 回弹问题,
@@ -127,12 +172,10 @@ v1.6.0
 - 增加默认指示器indicator_shape 属性 
 - 重构部分方法
 
-v1.5.0
+v1.5.0 ~
 - 重构Banner
 - 增加RecyclerBanner
-
-v1.x.x
-- banner ~
+- banner coding
 
 ## 感谢：
 
