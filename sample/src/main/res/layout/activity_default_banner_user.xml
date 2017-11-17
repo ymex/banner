@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.banner.DefaultBannerActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.banner.DefaultBannerActivity">
 
     <cn.ymex.widget.banner.Banner
         android:id="@+id/banner"
@@ -20,14 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="8dip"
-            app:indicator_selected="@color/colorAccent"
             android:gravity="center"
+            app:indicator_selected="@color/colorAccent"
             app:indicator_shape="circular" />
     </cn.ymex.widget.banner.Banner>
+
     <TextView
-        android:layout_marginTop="16dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
         android:lineSpacingExtra="4dip"
         android:padding="16dip"
         android:text="banner默认会创建AppCompatImageView为banner 页面,只需要加载图片到这个ImageView组件即可.\n\n默认banner水平方向循环滚动\n滚动间隔5秒" />

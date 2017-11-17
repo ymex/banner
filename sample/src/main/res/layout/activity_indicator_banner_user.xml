@@ -15,7 +15,7 @@
         app:banner_auto_play="true"
         app:banner_interval="3000">
 
-        <com.example.banner.TitleIndicatorLayout
+        <com.example.banner.indicator.TitleIndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

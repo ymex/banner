@@ -1,4 +1,4 @@
-package com.example.banner;
+package com.example.banner.indicator;
 
 import android.content.Context;
 import android.os.Build;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.banner.R;
 import com.example.banner.entity.BanneModel;
 
 import cn.ymex.widget.banner.Banner;
