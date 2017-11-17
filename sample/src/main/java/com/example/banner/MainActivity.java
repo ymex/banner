@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
                     startAction(DefaultBannerActivity.class.getName());
                 }
             }));
+            add(new ItemActionModel("指示器跟随移动").setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startAction(FlowIndicatorBannerActivity.class.getName());
+                }
+            }));
             add(new ItemActionModel("定制指示器").setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

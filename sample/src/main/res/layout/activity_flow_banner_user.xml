@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.banner.DefaultBannerActivity">
+
+    <cn.ymex.widget.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="240dip"
+        android:background="#eeeeee"
+        app:banner_auto_play="true"
+        app:banner_interval="3000">
+
+        <cn.ymex.widget.banner.IndicatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dip"
+            android:gravity="center"
+            app:indicator_flow="true"
+            app:indicator_selected="@mipmap/ic_dot_select"
+            app:indicator_unselected="@mipmap/ic_dot_unselect" />
+    </cn.ymex.widget.banner.Banner>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:lineSpacingExtra="4dip"
+        android:padding="16dip"
+        android:text="app:indicator_flow=true 时指示器的当前位置将随着滑动而移动。" />
+
+    <cn.ymex.widget.banner.Banner
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="240dip"
+        android:background="#eeeeee"
+        app:banner_auto_play="true"
+        app:banner_interval="3000"
+        app:banner_orientation="vertical">
+
+        <cn.ymex.widget.banner.IndicatorLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dip"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="8dip"
+            app:indicator_flow="true"
+            app:indicator_height="16dip"
+            app:indicator_margin="6dip"
+            app:indicator_selected="@color/colorAccent"
+            app:indicator_shape="rectangle"
+            app:indicator_unselected="@color/colorPrimary"
+            app:indicator_width="6dip" />
+    </cn.ymex.widget.banner.Banner>
+</LinearLayout>

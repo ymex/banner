@@ -12,19 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".DefaultBannerActivity" />
+        <activity android:name=".DefaultBannerActivity"></activity>
         <activity android:name=".CustomBannerActivity" />
         <activity android:name=".VerticalBannerActivity" />
         <activity android:name=".AnimationBannerActivity" />
         <activity android:name=".IndicatorBannerActivity" />
         <activity android:name=".ListviewBannerActivity" />
+        <activity android:name=".FlowIndicatorBannerActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".GuidePageActivity"
             android:theme="@style/AppTheme.NoActionBar.FullPage">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".RecyclerBannerActivity">

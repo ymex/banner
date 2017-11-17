@@ -13,16 +13,15 @@
         android:layout_height="240dip"
         android:background="#eeeeee"
         app:banner_auto_play="true"
-        app:banner_interval="3000">
+        app:banner_interval="3000"
+        app:banner_orientation="vertical">
 
         <cn.ymex.widget.banner.IndicatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="8dip"
-            android:gravity="center"
-            app:indicator_selected="@color/colorAccent"
-            app:indicator_shape="circular" />
+            android:gravity="center" />
     </cn.ymex.widget.banner.Banner>
 
     <TextView

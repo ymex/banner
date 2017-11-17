@@ -15,6 +15,7 @@
         <attr name="indicator_margin" format="dimension" />
         <attr name="indicator_selected" format="color|reference" />
         <attr name="indicator_unselected" format="color|reference" />
+        <attr name="indicator_flow" format="boolean" />
         <attr name="indicator_shape" format="enum">
             <enum name="circular" value="0" />
             <enum name="rectangle" value="1" />
