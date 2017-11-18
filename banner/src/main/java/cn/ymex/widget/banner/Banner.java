@@ -193,7 +193,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
      */
     @Override
     public int getCurrentItem() {
-        return mCurrentItem;
+        return positionIndex(mCurrentItem);
     }
 
     @Override
