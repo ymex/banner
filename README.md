@@ -17,7 +17,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ## gradle 引入
 
 ```
-compile 'cn.ymex:banner:1.6.3'
+compile 'cn.ymex:banner:1.6.4'
 ```
 
 
@@ -72,9 +72,8 @@ compile 'cn.ymex:banner:1.6.3'
 |indicator_margin|indicator的间距,默认4dip|
 |indicator_selected|选中图片或颜色|
 |indicator_unselected|未选中图片或颜色|
-|indicator_flow|指示器是否随banner移动而滑动,默认false|
 |indicator_shape|indicator的形状，circular（默认），rectangle|
-
+|indicator_flow|指示器是否随banner移动而滑动(RecyclerBanner 不支持),默认false|
 
 ## 使用
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 
@@ -82,7 +81,7 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 
 
 ```
-compile 'cn.ymex:banner:1.6.3'
+compile 'cn.ymex:banner:1.6.4'
 
 //需要以下扩展库进行支持
 //compile 'com.android.support:appcompat-v7:26.1.0'
@@ -171,8 +170,10 @@ banner.createView(new CreateViewCallBack() {
 
 
 ## 版本
-v1.6.3
+v1.6.4
 - 增加指示器滑动效果，由indicator_flow 属性控制
+- 修复滚动状态下currentItem 位置
+- 增加Gallery效果事例
 
 
 v1.6.2
