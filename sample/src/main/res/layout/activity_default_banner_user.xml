@@ -13,8 +13,7 @@
         android:layout_height="240dip"
         android:background="#eeeeee"
         app:banner_auto_play="true"
-        app:banner_interval="3000"
-        app:banner_orientation="vertical">
+        app:banner_interval="3000">
 
         <cn.ymex.widget.banner.IndicatorLayout
             android:layout_width="match_parent"
@@ -30,5 +29,5 @@
         android:layout_marginTop="16dip"
         android:lineSpacingExtra="4dip"
         android:padding="16dip"
-        android:text="banner默认会创建AppCompatImageView为banner 页面,只需要加载图片到这个ImageView组件即可.\n\n默认banner水平方向循环滚动\n滚动间隔5秒" />
+        android:text="banner默认会创建AppCompatImageView为banner 页面,只需要加载图片到这个组件即可.\n\n默认banner水平方向循环滚动\n滚动间隔5秒" />
 </LinearLayout>

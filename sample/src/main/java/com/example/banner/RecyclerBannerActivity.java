@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.banner.entity.BanneModel;
 import com.example.banner.entity.DateBox;
 
+import cn.ymex.kits.widget.Toaster;
 import cn.ymex.widget.banner.RecyclerBanner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
@@ -32,8 +33,10 @@ public class RecyclerBannerActivity extends AppCompatActivity {
         recyclerBanner = (RecyclerBanner) findViewById(R.id.rccycler_banner);
         recycleBanner(recyclerBanner);
     }
+
     RecyclerViewPager mRecyclerView;
-    private void recycleBanner(RecyclerBanner bannerView) {
+
+    private void recycleBanner(final RecyclerBanner bannerView) {
         //留边
         //marginSide(bannerView);
 
@@ -60,7 +63,9 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                 .setOnClickBannerListener(new OnClickBannerListener() {
                     @Override
                     public void onClickBanner(View view, Object data, int position) {
-                        Toast.makeText(RecyclerBannerActivity.this, "position: " + ((BanneModel) data).getTitle(), Toast.LENGTH_SHORT).show();
+                        Toaster.show("position: " + position +
+                                " title:" + ((BanneModel) data).getTitle() +
+                                "   CurrentItem:" + bannerView.getCurrentItem());
                     }
                 }).execute(DateBox.banneModels());
     }
@@ -69,7 +74,7 @@ public class RecyclerBannerActivity extends AppCompatActivity {
 
 
         mRecyclerView = bannerView.getPageView();
-        mRecyclerView.setPadding(130,0,130,0);
+        mRecyclerView.setPadding(130, 0, 130, 0);
 
         mRecyclerView.setClipToPadding(false);
 
