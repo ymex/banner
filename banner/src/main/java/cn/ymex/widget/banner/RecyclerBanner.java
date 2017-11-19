@@ -173,6 +173,9 @@ public class RecyclerBanner extends BaseBanner {
             return;
         }
         if (mIndicatorAble != null) {
+            if (mIndicatorAble instanceof IndicatorLayout) {
+                ((IndicatorLayout) mIndicatorAble).setIndicatorFlow(false);
+            }
             mIndicatorAble.initIndicator(data.size());
         }
 
