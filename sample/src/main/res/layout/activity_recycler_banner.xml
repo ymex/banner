@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,20 +23,30 @@
             android:layout_marginBottom="8dip"
             android:gravity="center"
             app:indicator_height="8dip"
-            app:indicator_width="8dip"/>
+            app:indicator_width="8dip" />
     </cn.ymex.widget.banner.RecyclerBanner>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dip"
-        android:text="RecyclerBanner 基于RecyclerView 实现，具体使用方法可以参考Banner，所有公开方法都相同。"/>
+        android:text="RecyclerBanner 基于RecyclerView 实现，具体使用方法可以参考Banner，所有公开方法都相同。" />
+
     <Button
         android:layout_width="match_parent"
+        android:layout_height="36dip"
         android:layout_margin="16dip"
-        android:text="animation"
         android:background="#f0f0f0"
         android:onClick="onAnimationClick"
-        android:textColor="#666666"
-        android:layout_height="36dip"/>
+        android:text="animation"
+        android:textColor="#666666" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="36dip"
+        android:background="#f0f0f0"
+        android:onClick="onSelect3"
+        android:layout_margin="16dip"
+        android:text="切换到第3页"
+        android:textColor="#666666" />
 </LinearLayout>

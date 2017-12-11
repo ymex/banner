@@ -72,6 +72,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
 
     public abstract int getCurrentItem();
 
+    public abstract void setCurrentItem(int index);
     /**
      * 设置指示器
      *

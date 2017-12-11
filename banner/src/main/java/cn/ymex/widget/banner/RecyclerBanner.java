@@ -127,6 +127,19 @@ public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
         return positionIndex(mCurrentItem);
     }
 
+    @Override
+    public void setCurrentItem(int index) {
+        if (getBannerData().size() == 0) {
+            return;
+        }
+        if (isLoop) {
+            int offset = mCurrentItem % getBannerData().size();
+            mRecyclerView.scrollToPosition(mCurrentItem + index - offset);
+        } else {
+            mRecyclerView.scrollToPosition(index);
+        }
+    }
+
     /**
      * RecyclerViewPager extends RecyclerView
      *
@@ -168,10 +181,7 @@ public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
         if (data != null) {
             getBannerData().addAll(data);
         }
-        if (getBannerData().size() < 2) {
-            adapter.notifyDataSetChanged();
-            return;
-        }
+
         if (mIndicatorAble != null) {
             if (mIndicatorAble instanceof IndicatorLayout) {
                 ((IndicatorLayout) mIndicatorAble).setIndicatorFlow(false);
@@ -180,7 +190,8 @@ public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
         }
 
         mRecyclerView.setCanLoop(isLoop);
-        mRecyclerView.setAdapter(adapter = new RecyclerViewAdapter());
+        adapter = new RecyclerViewAdapter();
+        mRecyclerView.setAdapter(adapter);
 
         startAutoPlay();
         adapter.notifyDataSetChanged();

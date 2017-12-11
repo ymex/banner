@@ -197,6 +197,11 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
     }
 
     @Override
+    public void setCurrentItem(int index) {
+        mBannerPage.setCurrentItem(index);
+    }
+
+    @Override
     public void startAutoPlay() {
         if (isAutoPlay && isLoop && getBannerData().size() > 2) {
             mHandler.removeCallbacks(mHandlerTask);
@@ -248,6 +253,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
             }
         }
     }
+
 
     @Override
     protected int positionIndex(int postion) {

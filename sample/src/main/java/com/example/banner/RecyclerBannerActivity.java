@@ -190,4 +190,8 @@ public class RecyclerBannerActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onSelect3(View view) {
+        recyclerBanner.setCurrentItem(3);
+    }
 }

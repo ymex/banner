@@ -17,7 +17,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ## gradle 引入
 
 ```
-compile 'cn.ymex:banner:1.6.4'
+compile 'cn.ymex:banner:1.6.5'
 ```
 
 
@@ -52,6 +52,8 @@ compile 'cn.ymex:banner:1.6.4'
 |setOrientation()|滚动方向|
 |setIndicatorable()|设置指示器|
 |setPageTransformer()|设置转换动画，仅Banner有此方法|
+|setCurrentItem(int index)|切换到指定项|
+|getCurrentItem()|当前页面索引|
 
 
 ### Banner及 RecyclerBanner属性
@@ -170,9 +172,10 @@ banner.createView(new CreateViewCallBack() {
 
 
 ## 版本
-v1.6.4
+v1.6.5
 - 增加指示器滑动效果，由indicator_flow 属性控制
 - 修复滚动状态下currentItem 位置
+- 修复RecyclerBanner bug
 - 增加Gallery效果事例
 
 

@@ -3,6 +3,7 @@ package com.example.banner;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,5 +40,9 @@ public class DefaultBannerActivity extends AppCompatActivity {
             }
 
         }).execute(DateBox.banneModels());//填充数据
+    }
+
+    public void onSelect3(View view) {
+        banner.setCurrentItem(3);
     }
 }
