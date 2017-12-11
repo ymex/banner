@@ -21,7 +21,7 @@ import java.util.List;
 import cn.ymex.widget.banner.core.BaseBanner;
 import cn.ymex.widget.banner.pager.RecyclerViewPager;
 
-public class RecyclerBanner extends BaseBanner {
+public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
 
 
     private LoopRecyclerViewPager mRecyclerView;
@@ -78,7 +78,7 @@ public class RecyclerBanner extends BaseBanner {
     }
 
     @Override
-    public BaseBanner setOrientation(int orientation) {
+    public RecyclerBanner setOrientation(int orientation) {
         this.isVertical = orientation == VERTICAL;
         runDirection(mRecyclerView);
         return this;
@@ -86,7 +86,7 @@ public class RecyclerBanner extends BaseBanner {
 
 
     @Override
-    public BaseBanner setLoop(boolean loop) {
+    public RecyclerBanner setLoop(boolean loop) {
         this.isLoop = loop;
         return this;
     }
