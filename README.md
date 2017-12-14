@@ -17,7 +17,7 @@ Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动
 ## gradle 引入
 
 ```
-compile 'cn.ymex:banner:1.6.5'
+compile 'cn.ymex:banner:1.6.6'
 ```
 
 
@@ -83,7 +83,7 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 
 
 ```
-compile 'cn.ymex:banner:1.6.4'
+compile 'cn.ymex:banner:1.6.6'
 
 //需要以下扩展库进行支持
 //compile 'com.android.support:appcompat-v7:26.1.0'
