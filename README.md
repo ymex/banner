@@ -171,7 +171,52 @@ banner.createView(new CreateViewCallBack() {
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
 
+## 注意
+
+1. 使用glide 去加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
+使用默认布局时，若你使用glide 去加载图片,因banner 与 glide 同时操作 AppCompatImageView 的setTag()，
+glide 会出现加载异常。
+
+解决方案:\n
+
+
+方案一：设置glide 的 `ViewTarget.setTagId`使用其使用非默认tag/n
+```
+//在你的Application的oncreate 中设置
+public class App extends Application {
+    @Override public void onCreate() {
+        super.onCreate();
+        ViewTarget.setTagId(R.id.glide_tag);
+    }
+}
+
+//在资源文件（src/main/values/ids.xml，如果没有请新建）中加入 :
+<resources>
+    <item type="id" name="glide_tag" />
+</resources>
+```
+
+方案二：设置`banner.createView(CreateViewCaller.build())`或自定义布局 替代默认的banner 布局\n
+```java
+banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCaller
+    .bindView(new BindViewCallBack<FrameLayout, BanneModel>() {
+        @Override
+        public void bindView(FrameLayout view, BanneModel data, int position) {//图片处理
+            //使用glide 加载图片到 view组件，data 是你的数据 。
+            ImageView imageView = CreateViewCaller.findImageView(view);
+
+            Glide.with(view.getContext()).load(data.getUrl()).into(imageView);
+        }
+
+    }).execute(DateBox.banneModels());//填充数据
+```
+
+
+
 ## 版本
+v1.6.6
+- 增加默认包裹ImageView布局
+
 v1.6.5
 - 增加指示器滑动效果，由indicator_flow 属性控制
 - 修复滚动状态下currentItem 位置
