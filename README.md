@@ -173,15 +173,15 @@ banner.createView(new CreateViewCallBack() {
 
 ## 注意
 
-1. 使用glide 去加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
-使用默认布局时，若你使用glide 去加载图片,因banner 与 glide 同时操作 AppCompatImageView 的setTag()，
-glide 会出现加载异常。
+1. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
 
-解决方案:\n
+原因：使用默认布局时，banner 与 glide 同时操作 AppCompatImageView 的setTag()。
 
+解决方案:
 
-方案一：设置glide 的 `ViewTarget.setTagId`使用其使用非默认tag/n
-```
+方案一：设置glide 的 `ViewTarget.setTagId`使用其使用非默认tag
+
+``` java
 //在你的Application的oncreate 中设置
 public class App extends Application {
     @Override public void onCreate() {
@@ -196,8 +196,9 @@ public class App extends Application {
 </resources>
 ```
 
-方案二：设置`banner.createView(CreateViewCaller.build())`或自定义布局 替代默认的banner 布局\n
-```java
+方案二：设置`banner.createView(CreateViewCaller.build())`或自定义布局 替代默认的banner 布局
+
+``` java
 banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCaller
     .bindView(new BindViewCallBack<FrameLayout, BanneModel>() {
         @Override
