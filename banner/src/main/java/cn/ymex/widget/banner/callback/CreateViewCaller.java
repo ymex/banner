@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import cn.ymex.widget.banner.callback.CreateViewCallBack;
-
 /**
  * 默认加载布局
  */
@@ -19,6 +17,10 @@ public class CreateViewCaller implements CreateViewCallBack<FrameLayout> {
         return new CreateViewCaller(ImageView.ScaleType.FIT_XY);
     }
 
+    /**
+     * @param scaleType 缩放类型
+     * @return CreateViewCaller
+     */
     public static CreateViewCaller build(ImageView.ScaleType scaleType) {
         return new CreateViewCaller(scaleType);
     }
@@ -28,9 +30,21 @@ public class CreateViewCaller implements CreateViewCallBack<FrameLayout> {
         this.scaleType = scaleType;
     }
 
+    /**
+     * 得到第一个ImageView
+     *
+     * @param view
+     * @return
+     */
     public static AppCompatImageView findImageView(View view) {
         if (view instanceof ViewGroup) {
-            return (AppCompatImageView) ((ViewGroup) view).getChildAt(0);
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View imageView = ((ViewGroup) view).getChildAt(i);
+                if (imageView instanceof AppCompatImageView) {
+                    return (AppCompatImageView) imageView;
+                }
+            }
+            return null;
         }
         return null;
     }

@@ -52,7 +52,7 @@ compile 'cn.ymex:banner:1.6.6'
 |setOrientation()|滚动方向|
 |setIndicatorable()|设置指示器|
 |setPageTransformer()|设置转换动画，仅Banner有此方法|
-|setCurrentItem(int index)|切换到指定项|
+|setCurrentItem(int index)|切换到指定页|
 |getCurrentItem()|当前页面索引|
 
 
@@ -62,9 +62,9 @@ compile 'cn.ymex:banner:1.6.6'
 | 属性        | 解释   |
 | --------   | :-----:  |
 |banner_interval|滚动间隔 (默认5000ms)|
-|banner_auto_play|是否自动播放 (默认true)|
-|banner_loop|是否循环滚动 (默认true)|
-|banner_orientation|horizontal(默认)，vertical|
+|banner_auto_play|自动播放 (默认true)|
+|banner_loop|循环滚动 (默认true)|
+|banner_orientation|滚动方向 horizontal(默认)，vertical|
 
 ### IndicatorLayout属性
 | 属性        | 解释   |
