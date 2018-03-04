@@ -5,7 +5,7 @@
 Android Viewpager rotation control, application guide page controls, support vertical, horizontal cycle scrolling, extended from view support animation, indicator extension and so on.
 
 
-Android 轮播图控件、app引导页控件，支持垂直、水平循环滚动，扩展自viewpager 支持动画，指示器扩展等。<br>
+banner扩展自viewpager 支持动画，指示器扩展等。 可用于轮播图、app引导页。 其支持图片垂直、水平循环滚动。<br>
 
 ## 简介
 
@@ -112,7 +112,7 @@ compile 'cn.ymex:banner:1.6.6'
 </cn.ymex.widget.banner.Banner>
 ```
 
-2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局。
+2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局（若使用glide图片框架加载图片，请查看下文的注意事项）。
 
 ```
 
@@ -171,7 +171,7 @@ banner.createView(new CreateViewCallBack() {
 `RecylerBanner` 使用方法完全同`Banner`,但个别方法不支持，如动画切换的`setPageTransformer()`。
 
 
-## 注意
+## 注意事项
 
 1. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
 
