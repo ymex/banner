@@ -30,8 +30,8 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
         banner = Finder.find(this, R.id.banner);
         marginSide(banner);
-        banner.setPageTransformer(new GallyPageTransformer())
-                .createView(CreateViewCaller.build())
+        banner.createView(CreateViewCaller.build())
+                .setPageTransformer(new GallyPageTransformer())
                 .bindView(new BindViewCallBack<FrameLayout, BanneModel>() {
 
                     @Override
