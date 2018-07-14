@@ -51,7 +51,7 @@ compile 'cn.ymex:banner:1.6.6'
 |setOnClickBannerListener()|点击事件|
 |setOrientation()|滚动方向|
 |setIndicatorable()|设置指示器|
-|setPageTransformer()|设置转换动画，仅Banner有此方法|
+|setPageTransformer()|设置转换动画（RecyclerBanner 不支持）|
 |setCurrentItem(int index)|切换到指定页|
 |getCurrentItem()|当前页面索引|
 
@@ -115,7 +115,8 @@ compile 'cn.ymex:banner:1.6.6'
 2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局（若使用glide图片框架加载图片，请查看下文的注意事项）。
 
 ```
-
+//注意：如果你使用的glide 去加载图片，此默认方式会与Glide冲突
+//请看文末尾的注意事项，使用CreateViewCaller.build()去创建默认布局。
 banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
     @Override
     public void bindView(AppCompatImageView view, BanneModel data, int position) {
