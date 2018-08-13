@@ -47,7 +47,6 @@ public class DefaultBannerActivity extends AppCompatActivity {
     }
 
     public void onSelect3(View view) {
-        banner.setLoop(true);
-        // banner.setCurrentItem(3);
+         banner.setCurrentItem(3);
     }
 }
