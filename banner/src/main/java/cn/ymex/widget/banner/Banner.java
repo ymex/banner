@@ -203,7 +203,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     @Override
     public void startAutoPlay() {
-        if (isAutoPlay && isLoop && getBannerData().size() > 2) {
+        if (isAutoPlay && isLoop && getBannerData().size() > 1) {
             mHandler.removeCallbacks(mHandlerTask);
             mHandler.postDelayed(mHandlerTask, interval);
         }
