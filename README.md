@@ -112,11 +112,8 @@ compile 'cn.ymex:banner:1.6.6'
 </cn.ymex.widget.banner.Banner>
 ```
 
-2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局（若使用glide图片框架加载图片，请查看下文的注意事项）。
-
+2、使用bindview加载图片资源到banner中，banner默认实现了基于AppCompatImageView的布局
 ```
-//注意：如果你使用的glide 去加载图片，此默认方式会与Glide冲突
-//请看文末尾的注意事项，使用CreateViewCaller.build()去创建默认布局。
 banner.bindView(new Banner.BindViewCallBack<AppCompatImageView,BanneModel>() {
     @Override
     public void bindView(AppCompatImageView view, BanneModel data, int position) {
@@ -176,7 +173,8 @@ banner.createView(new CreateViewCallBack() {
 
 1. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
 
-原因：使用默认布局时，banner 与 glide 同时操作 AppCompatImageView 的setTag()。
+原因：如果 banner页布局只存在一个ImageView组件，banner 与 glide 都会去操作组件的setTag()，则glide会抛出异常。
+（banner v1.6.7版本以下的默认布局仅含有一个ImageView 组件，所以使用glide会有这个异常。v1.6.7已经重写了默认布局。）
 
 解决方案:
 
@@ -197,7 +195,7 @@ public class App extends Application {
 </resources>
 ```
 
-方案二：设置`banner.createView(CreateViewCaller.build())`或自定义布局 替代默认的banner 布局
+方案二：设置`banner.createView(CreateViewCaller.build())`（v1.6.7已经重写了默认布局。如果你使用v1.6.7+版本，将不会出现这个问题。）
 
 ``` java
 banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCaller
@@ -216,7 +214,12 @@ banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCa
 
 
 ## 版本
-v1.6.6
+v1.6.7
+- 默认布局替换为包裹ImageView布局
+- 循环滚动条目数量限制更改
+
+
+v1.6.
 - 增加默认包裹ImageView布局
 
 v1.6.5

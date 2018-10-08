@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.ymex.widget.banner.callback.CreateViewCallBack;
+import cn.ymex.widget.banner.callback.CreateViewCaller;
 import cn.ymex.widget.banner.core.BaseBanner;
 import cn.ymex.widget.banner.pager.BannerPager;
 
@@ -228,19 +229,19 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
         for (int i = 0; i <= (isLoop ? size + 1 : size - 1); i++) {
             if (def) {
-                this.createViewCallBack = new CreateViewCallBack<AppCompatImageView>() {
-                    @Override
-                    public AppCompatImageView createView(Context context, ViewGroup parent, int viewType) {
-                        return createImageView(context);
-                    }
-                };
+                this.createViewCallBack = CreateViewCaller.build();
             }
             View view = createViewCallBack.createView(getContext(), null, 0);
             getItemViews().add(view);
             int index = positionIndex(i);
 
             if (bindViewCallBack != null && getBannerData().size() > 0) {
-                bindViewCallBack.bindView(view, getBannerData().get(index), index);
+                if (def) {
+                    bindViewCallBack.bindView(CreateViewCaller.findImageView(view), getBannerData().get(index), index);
+                }else {
+                    bindViewCallBack.bindView(view, getBannerData().get(index), index);
+                }
+
             }
             if (onClickBannerListener != null && getBannerData().size() > 0) {
                 final int finalIndex = index;

@@ -1,10 +1,9 @@
 package com.example.banner;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import com.example.banner.entity.DateBox;
 
 import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
-import cn.ymex.widget.banner.callback.CreateViewCaller;
 import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 public class DefaultBannerActivity extends AppCompatActivity {
@@ -27,16 +25,13 @@ public class DefaultBannerActivity extends AppCompatActivity {
 
         banner = (Banner) findViewById(R.id.banner);
 
-        banner.createView(CreateViewCaller.build())
-                .bindView(new BindViewCallBack<FrameLayout, BanneModel>() {
-                    @Override
-                    public void bindView(FrameLayout view, BanneModel data, int position) {//图片处理
-                        //使用glide 加载图片到 view组件，data 是你的数据 。
-                        ImageView imageView = CreateViewCaller.findImageView(view);
-                        Glide.with(view.getContext()).load(data.getUrl()).into(imageView);
-                    }
+        banner.bindView(new BindViewCallBack<ImageView, BanneModel>() {
+            @Override
+            public void bindView(ImageView view, BanneModel data, int position) {//图片处理
+                Glide.with(view.getContext()).load(data.getUrl()).into(view);
+            }
 
-                }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
+        }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
 
             @Override
             public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件
@@ -47,6 +42,6 @@ public class DefaultBannerActivity extends AppCompatActivity {
     }
 
     public void onSelect3(View view) {
-         banner.setCurrentItem(3);
+        banner.setCurrentItem(3);
     }
 }

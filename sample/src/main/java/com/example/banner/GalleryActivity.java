@@ -15,7 +15,6 @@ import cn.ymex.kits.Device;
 import cn.ymex.kits.Finder;
 import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
-import cn.ymex.widget.banner.callback.CreateViewCaller;
 import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -29,25 +28,25 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         banner = Finder.find(this, R.id.banner);
+
         marginSide(banner);
-        banner.createView(CreateViewCaller.build())
-                .setPageTransformer(new GallyPageTransformer())
-                .bindView(new BindViewCallBack<FrameLayout, BanneModel>() {
+        banner.setPageTransformer(new GallyPageTransformer())
+                .bindView(new BindViewCallBack<AppCompatImageView, BanneModel>() {
 
                     @Override
-                    public void bindView(FrameLayout view, BanneModel data, int position) {//图片处理
+                    public void bindView(AppCompatImageView view, BanneModel data, int position) {//图片处理
                         //使用glide 加载图片到 view组件，data 是你的数据 。
-                        Glide.with(view.getContext()).load(data.getUrl()).into(CreateViewCaller.findImageView(view));
+                        Glide.with(view.getContext()).load(data.getUrl()).into(view);
                     }
 
-                }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
+                }).setOnClickBannerListener(new OnClickBannerListener<FrameLayout, BanneModel>() {
 
             @Override
-            public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件
+            public void onClickBanner(FrameLayout view, BanneModel data, int position) {//点击事件
                 Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
-        }).execute(DateBox.banneModels());//填充数据
+        }).execute(DateBox.banneModels().subList(0, 2));//填充数据
     }
 
     public static void marginSide(Banner banner) {
