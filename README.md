@@ -17,7 +17,7 @@ banner扩展自viewpager 支持动画，指示器扩展等。 可用于轮播图
 ## gradle 引入
 
 ```
-compile 'cn.ymex:banner:1.6.6'
+compile 'cn.ymex:banner:1.6.7'
 ```
 
 
