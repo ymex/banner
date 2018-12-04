@@ -82,14 +82,6 @@ banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用�
 `需要 appcompat-v7 和 recyclerview 扩展库支持`，并引入banner lib.
 
 
-```
-compile 'cn.ymex:banner:1.6.6'
-
-//需要以下扩展库进行支持
-//compile 'com.android.support:appcompat-v7:26.1.0'
-//compile 'com.android.support:recyclerview-v7:26.1.0'
-```
-
 1、在布局文件中加入控件,IndicatorLayout 是指示器布局,因 Banner 是一个FrameLayout，所以你可以随意定义其位置。<br>
 如果 不使用指示器移除它就可以了。当然你也可通过实现`IndicatorAble`接口去自定义 指示器（具体参看 IndicatorLayout）。
 ```
