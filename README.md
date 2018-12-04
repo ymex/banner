@@ -204,14 +204,13 @@ banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCa
 ```
 
 
-
 ## 版本
 v1.6.7
 - 默认布局替换为包裹ImageView布局
 - 循环滚动条目数量限制更改
 
 
-v1.6.
+v1.6.6
 - 增加默认包裹ImageView布局
 
 v1.6.5
