@@ -3,6 +3,7 @@ package com.example.banner;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,10 +41,10 @@ public class FlowIndicatorBannerActivity extends AppCompatActivity {
                 Glide.with(view.getContext()).load(data.getUrl()).into(view);
             }
 
-        }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
+        }).setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
 
             @Override
-            public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件
+            public void onClickBanner(View view, BanneModel data, int position) {//点击事件
                 Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
             }
 

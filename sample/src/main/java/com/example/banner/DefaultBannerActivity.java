@@ -31,10 +31,10 @@ public class DefaultBannerActivity extends AppCompatActivity {
                 Glide.with(view.getContext()).load(data.getUrl()).into(view);
             }
 
-        }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView, BanneModel>() {
+        }).setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
 
             @Override
-            public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {//点击事件
+            public void onClickBanner(View view, BanneModel data, int position) {//点击事件
                 Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
