@@ -38,7 +38,7 @@ public class DefaultBannerActivity extends AppCompatActivity {
                 Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
-        }).execute(DateBox.banneModels());//填充数据
+        }).execute(DateBox.banne1Model());//填充数据
     }
 
     public void onSelect3(View view) {

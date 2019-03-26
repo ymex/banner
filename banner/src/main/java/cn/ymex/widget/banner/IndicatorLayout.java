@@ -46,6 +46,9 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     private View mFirstIndicator, mSecondIndicator;
     private int mMoveDistance = 0;
     private int mMarginSize;
+    private int mMaxDotCount = 20;
+    private int mMinDotCount = 1;
+
 
     private Paint mBitPaint;
     private RectF mRectF;
@@ -55,6 +58,8 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
 
     private static int dip4 = (int) dp2px(4);
     private static int dip8 = (int) dp2px(8);
+
+
 
 
     public IndicatorLayout(Context context, int count) {
@@ -84,7 +89,7 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     private void init(AttributeSet attrs) {
         dealAttrs(attrs);
         if (isInEditMode()) {
-            initIndicator(3);
+            initIndicator(mMaxDotCount);
         }
     }
 
@@ -98,10 +103,10 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
         mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.IndicatorLayout_indicator_margin, dip4);
         mSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_selected);
         mUnSelectedDrawable = typedArray.getDrawable(R.styleable.IndicatorLayout_indicator_unselected);
-
         mIndicatorFlow = typedArray.getBoolean(R.styleable.IndicatorLayout_indicator_flow, false);
-
         mIndicatorShap = typedArray.getInt(R.styleable.IndicatorLayout_indicator_shape, 0);
+        mMinDotCount = typedArray.getInt(R.styleable.IndicatorLayout_indicator_min_dot, mMinDotCount);
+        mMaxDotCount = typedArray.getInt(R.styleable.IndicatorLayout_indicator_max_dot, mMaxDotCount);
 
 
         if (mSelectedDrawable == null) {
@@ -189,10 +194,12 @@ public class IndicatorLayout extends LinearLayout implements IndicatorAble {
     public void initIndicator(int size) {
         this.removeAllViews();
         this.mIndicatorCount = size;
-        if (size < 2) {
+        if (size < mMinDotCount) {
             return;
         }
-
+        if (mIndicatorCount > mMaxDotCount) {
+            mIndicatorCount = mMaxDotCount;
+        }
         for (int i = 0; i < mIndicatorCount; i++) {
             AppCompatImageView imageView = new AppCompatImageView(getContext());
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);

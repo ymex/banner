@@ -64,6 +64,8 @@ compile 'cn.ymex:banner:1.6.7'
 |banner_interval|滚动间隔 (默认5000ms)|
 |banner_auto_play|自动播放 (默认true)|
 |banner_loop|循环滚动 (默认true)|
+|banner_scroll|是否可以手动滚动 (默认true)|
+|banner_min_loop| 最小可以循环滚动的数量 (默认 1 )|
 |banner_orientation|滚动方向 horizontal(默认)，vertical|
 
 ### IndicatorLayout属性
@@ -76,6 +78,8 @@ compile 'cn.ymex:banner:1.6.7'
 |indicator_unselected|未选中图片或颜色|
 |indicator_shape|indicator的形状，circular（默认），rectangle|
 |indicator_flow|指示器是否随banner移动而滑动(RecyclerBanner 不支持),默认false|
+|indicator_min_dot|指示器最小显示数量 ，默认1。（v1.6.8+）|
+|indicator_max_dot|指示器最大显示数量，默认20。（ v1.6.8+）|
 
 ## 使用
 banner基于viewpage 扩展，支持横向与纵向自动循环滚动。可用作 轮播图控件、app引导页控件。 

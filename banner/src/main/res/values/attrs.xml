@@ -4,6 +4,8 @@
         <attr name="banner_interval" format="integer" />
         <attr name="banner_auto_play" format="boolean" />
         <attr name="banner_loop" format="boolean" />
+        <attr name="banner_min_loop" format="integer" />
+        <attr name="banner_scroll" format="boolean" />
         <attr name="banner_orientation" format="enum">
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />
@@ -16,6 +18,8 @@
         <attr name="indicator_selected" format="color|reference" />
         <attr name="indicator_unselected" format="color|reference" />
         <attr name="indicator_flow" format="boolean" />
+        <attr name="indicator_max_dot" format="integer" />
+        <attr name="indicator_min_dot" format="integer" />
         <attr name="indicator_shape" format="enum">
             <enum name="circular" value="0" />
             <enum name="rectangle" value="1" />

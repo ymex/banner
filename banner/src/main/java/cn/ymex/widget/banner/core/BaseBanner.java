@@ -37,6 +37,8 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
     protected boolean isAutoPlay = true;//自动播放
     protected boolean isVertical = false;//纵向滚动
     protected boolean isLoop = true;//是否循环滚动
+    protected boolean isScroll = true;//是否可以手动滚动
+    protected int mineLoopLimitItem = 1;//最小循环滚动条数
 
 
     protected IndicatorAble mIndicatorAble;
@@ -73,6 +75,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
     public abstract int getCurrentItem();
 
     public abstract void setCurrentItem(int index);
+
     /**
      * 设置指示器
      *
@@ -94,6 +97,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
         }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Banner);
         interval = typedArray.getInt(R.styleable.Banner_banner_interval, interval);
+        mineLoopLimitItem = typedArray.getInt(R.styleable.Banner_banner_min_loop, 1);
         isAutoPlay = typedArray.getBoolean(R.styleable.Banner_banner_auto_play, isAutoPlay);
         isLoop = typedArray.getBoolean(R.styleable.Banner_banner_loop, isLoop);
         isVertical = (typedArray.getInt(R.styleable.Banner_banner_orientation, 0) == VERTICAL);

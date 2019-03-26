@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 
 public class BannerPager extends ViewPager {
     private boolean canScroll = true;
+    public static final int OFF_SCREEN_PAGE_LIMIT = 5;
     private boolean isVertical = false; //垂直
 
     private static final Interpolator sInterpolator = new DecelerateInterpolator();//减速，使用滑动更自然
@@ -30,6 +31,7 @@ public class BannerPager extends ViewPager {
 
 
     private void replaceViewPagerScroll() {
+        setOffscreenPageLimit(OFF_SCREEN_PAGE_LIMIT);
         try {
             Field field = ViewPager.class.getDeclaredField("mScroller");
             field.setAccessible(true);

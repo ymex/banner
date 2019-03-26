@@ -10,7 +10,6 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ymex.widget.banner.callback.CreateViewCallBack;
 import cn.ymex.widget.banner.callback.CreateViewCaller;
 import cn.ymex.widget.banner.core.BaseBanner;
 import cn.ymex.widget.banner.pager.BannerPager;
@@ -118,7 +116,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         int dataSize = getBannerData().size();
         int viewSize = getItemViews().size();
         if (dataSize != viewSize) {
-            if (viewSize < 2) {
+            if (viewSize < mineLoopLimitItem) {
                 return this;
             }
             getItemViews().remove(viewSize - 1);
@@ -128,6 +126,18 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         return this;
     }
 
+
+    /**
+     * 是否可以手动滚动
+     *
+     * @param scroll true
+     * @return
+     */
+    public Banner setScroll(boolean scroll) {
+        isScroll = scroll;
+        mBannerPage.setCanScroll(scroll);
+        return this;
+    }
 
     /**
      * BannerPager  onPageChangeListener
@@ -149,6 +159,10 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         return mBannerPage;
     }
 
+    public Banner setOffscreenPageLimit(int limit) {
+        getPageView().setOffscreenPageLimit(limit);
+        return this;
+    }
 
     /**
      * see getPageView
@@ -162,6 +176,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     @Override
     public <T extends Object> void execute(List<T> imagesData) {
+
         stopAutoPlay();
         getItemViews().clear();
         getBannerData().clear();
@@ -179,11 +194,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
             mBannerPage.setCurrentItem(mCurrentItem);
         }
 
-        if (getBannerData().size() <= 1) {
-            mBannerPage.setCanScroll(false);
-        } else {
-            mBannerPage.setCanScroll(true);
-        }
+        mBannerPage.setCanScroll(isScroll);
         startAutoPlay();
     }
 
@@ -204,7 +215,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
     @Override
     public void startAutoPlay() {
-        if (isAutoPlay && isLoop && getBannerData().size() > 1) {
+        if (isAutoPlay && isLoop && getBannerData().size() >= mineLoopLimitItem) {
             mHandler.removeCallbacks(mHandlerTask);
             mHandler.postDelayed(mHandlerTask, interval);
         }
@@ -238,7 +249,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
             if (bindViewCallBack != null && getBannerData().size() > 0) {
                 if (def) {
                     bindViewCallBack.bindView(CreateViewCaller.findImageView(view), getBannerData().get(index), index);
-                }else {
+                } else {
                     bindViewCallBack.bindView(view, getBannerData().get(index), index);
                 }
 
@@ -342,7 +353,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
                 return;
             }
             int size = banner.getBannerData().size();
-            if (size > 1 && banner.isAutoPlay && banner.isLoop) {
+            if (size >= banner.mineLoopLimitItem && banner.isAutoPlay && banner.isLoop) {
                 banner.mCurrentItem = banner.mCurrentItem % (size + 1) + 1;
                 if (banner.mCurrentItem == 1) {
                     banner.mBannerPage.setCurrentItem(banner.mCurrentItem, false);
@@ -399,7 +410,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
         public void finishUpdate(ViewGroup container) {
             super.finishUpdate(container);
             View view = container.findViewWithTag(mBannerPage.getCurrentItem());
-            if (view != null) {
+            if (view != null && getPageView().getOffscreenPageLimit() > mBannerPage.getCurrentItem()) {
                 view.setEnabled(true);
             }
         }

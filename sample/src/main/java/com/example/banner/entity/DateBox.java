@@ -18,4 +18,16 @@ public class DateBox {
         }};
     }
 
+    public static List<BanneModel> banne2Model() {
+        return new ArrayList<BanneModel>() {{
+            add(new BanneModel("http://doubii.naobutu.com/timg_1.jpg", "星空图-01"));
+            add(new BanneModel("http://doubii.naobutu.com/timg_2.jpg", "星空图-02"));
+        }};
+    }
+
+    public static List<BanneModel> banne1Model() {
+        return new ArrayList<BanneModel>() {{
+            add(new BanneModel("http://doubii.naobutu.com/timg_1.jpg", "星空图-01"));
+        }};
+    }
 }
