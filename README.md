@@ -65,7 +65,7 @@ compile 'cn.ymex:banner:1.6.7'
 |banner_auto_play|自动播放 (默认true)|
 |banner_loop|循环滚动 (默认true)|
 |banner_scroll|是否可以手动滚动 (默认true)|
-|banner_min_loop| 最小可以循环滚动的数量 (默认 1 )|
+|banner_min_loop| 最小可以循环滚动的数量 (默认 1  v1.6.8)|
 |banner_orientation|滚动方向 horizontal(默认)，vertical|
 
 ### IndicatorLayout属性
@@ -175,16 +175,15 @@ banner.createView(new CreateViewCallBack() {
 
 
 ## 注意事项
-0.关于泛型的问题：
 
- - `BindViewCallBack<V, T>()`第一个泛型参数是`CreateViewCallBack()`返回类型，
-第二个泛型参数是你填充的数据类型。
+ 1.关于泛型的问题：
+
+ - `BindViewCallBack<V, T>()`第一个泛型参数是`CreateViewCallBack()`返回类型，第二个泛型参数是你填充数据的类型。
 
  - `OnClickBannerListener<V, T>()` 同上。
 
-如果你使用的是v1.6.8默认的布局。
 
-1. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
+ 2. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
 
 原因：如果 banner页布局只存在一个ImageView组件，banner 与 glide 都会去操作组件的setTag()，则glide会抛出异常。
 （banner v1.6.7版本以下的默认布局仅含有一个ImageView 组件，所以使用glide会有这个异常。v1.6.7已经重写了默认布局。）
@@ -226,6 +225,10 @@ banner.createView(CreateViewCaller.build())//v1.6.6 版本中提供 CreateViewCa
 
 
 ## 版本
+v1.6.8
+- 修复部分问题
+- 增加部分参数
+
 v1.6.7
 - 默认布局替换为包裹ImageView布局
 - 循环滚动条目数量限制更改
