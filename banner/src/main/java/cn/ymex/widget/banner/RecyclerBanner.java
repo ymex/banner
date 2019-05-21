@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.ymex.widget.banner.callback.CreateViewCaller;
 import cn.ymex.widget.banner.core.BaseBanner;
 import cn.ymex.widget.banner.pager.RecyclerViewPager;
 
@@ -206,19 +207,25 @@ public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = null;
-            if (createViewCallBack != null) {
-                view = createViewCallBack.createView(parent.getContext(), parent, viewType);
+            if (defBannerView) {
+                createViewCallBack = CreateViewCaller.build();
             }
-            if (view == null) {
-                view = createImageView(parent.getContext());
-            }
+
+            View view = createViewCallBack.createView(parent.getContext(), parent, viewType);
+
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onClickBannerListener != null) {
                         int index = positionIndex(mCurrentItem);
-                        onClickBannerListener.onClickBanner(v, getItemData(index), index);
+                        if (defBannerView) {
+                            //noinspection unchecked
+                            onClickBannerListener.onClickBanner(CreateViewCaller.findImageView(v), getItemData(index), index);
+                        } else {
+                            //noinspection unchecked
+                            onClickBannerListener.onClickBanner(v, getItemData(index), index);
+                        }
+
                     }
                 }
             });
@@ -228,9 +235,15 @@ public class RecyclerBanner extends BaseBanner<RecyclerBanner> {
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
             if (bindViewCallBack != null) {
-                bindViewCallBack.bindView(holder.itemView, getItemData(position), position);
+                if (defBannerView) {
+                    //noinspection unchecked
+                    bindViewCallBack.bindView(CreateViewCaller.findImageView(holder.itemView), getItemData(position), position);
+                } else {
+
+                    //noinspection unchecked
+                    bindViewCallBack.bindView(holder.itemView, getItemData(position), position);
+                }
             }
         }
 

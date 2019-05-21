@@ -228,18 +228,13 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
     }
 
     private void generateItemViews() {
-        boolean def = true;
-        if (this.createViewCallBack != null && createViewCallBack.createView(getContext(), null, 0) != null) {
-            def = false;
-        }
-
         int size = getBannerData().size();
         if (size <= 0) {
             return;
         }
 
         for (int i = 0; i <= (isLoop ? size + 1 : size - 1); i++) {
-            if (def) {
+            if (defBannerView) {
                 this.createViewCallBack = CreateViewCaller.build();
             }
             View view = createViewCallBack.createView(getContext(), null, 0);
@@ -247,7 +242,7 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
             int index = positionIndex(i);
 
             if (bindViewCallBack != null && getBannerData().size() > 0) {
-                if (def) {
+                if (defBannerView) {
                     //noinspection unchecked
                     bindViewCallBack.bindView(CreateViewCaller.findImageView(view), getBannerData().get(index), index);
                 } else {
@@ -258,11 +253,10 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
             }
             if (onClickBannerListener != null && getBannerData().size() > 0) {
                 final int finalIndex = index;
-                final boolean finalDef = def;
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (finalDef) {
+                        if (defBannerView) {
                             //noinspection unchecked
                             onClickBannerListener.onClickBanner(CreateViewCaller.findImageView(view), getBannerData().get(finalIndex), finalIndex);
                         }else {

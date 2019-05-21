@@ -9,11 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
@@ -45,6 +43,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
     protected OnClickBannerListener onClickBannerListener;
     protected CreateViewCallBack createViewCallBack;
     protected BindViewCallBack bindViewCallBack;
+    protected boolean defBannerView = true;
 
     protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
         dealAttrs(context, attrs);
@@ -56,6 +55,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
     }
 
     public T createView(CreateViewCallBack listener) {
+        defBannerView = false;
         this.createViewCallBack = listener;
         return (T) this;
     }
@@ -103,21 +103,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
         isVertical = (typedArray.getInt(R.styleable.Banner_banner_orientation, 0) == VERTICAL);
         typedArray.recycle();
     }
-
-    /**
-     * banner 默认布局
-     *
-     * @param context context
-     * @return AppCompatImageView
-     */
-    protected AppCompatImageView createImageView(Context context) {
-        AppCompatImageView view = new AppCompatImageView(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        view.setLayoutParams(params);
-        view.setScaleType(AppCompatImageView.ScaleType.FIT_XY);
-        return view;
-    }
+    
 
     public abstract <D extends Object> void execute(List<D> datas);
 

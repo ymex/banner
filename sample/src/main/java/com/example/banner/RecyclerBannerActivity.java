@@ -41,19 +41,20 @@ public class RecyclerBannerActivity extends AppCompatActivity {
         //marginSide(bannerView);
 
 
-        bannerView.bindView(new BindViewCallBack() {
-            @Override
-            public void bindView(View view, Object data, int position) {
-                ImageView imageView = view.findViewById(R.id.imageView);
-                TextView textView = view.findViewById(R.id.title);
-                BanneModel entity = (BanneModel) data;
+        bannerView
+                .bindView(new BindViewCallBack() {
+                    @Override
+                    public void bindView(View view, Object data, int position) {
+                        ImageView imageView = view.findViewById(R.id.imageView);
+                        TextView textView = view.findViewById(R.id.title);
+                        BanneModel entity = (BanneModel) data;
 
-                textView.setText(entity.getTitle());
-                Glide.with(view.getContext())
-                        .load(entity.getUrl())
-                        .into(imageView);
-            }
-        })
+                        textView.setText(entity.getTitle());
+                        Glide.with(view.getContext())
+                                .load(entity.getUrl())
+                                .into(imageView);
+                    }
+                })
                 .createView(new CreateViewCallBack() {
                     @Override
                     public View createView(Context context, ViewGroup parent, int viewType) {
@@ -63,11 +64,12 @@ public class RecyclerBannerActivity extends AppCompatActivity {
                 .setOnClickBannerListener(new OnClickBannerListener() {
                     @Override
                     public void onClickBanner(View view, Object data, int position) {
-                        Toaster.show("position: " + position +
+                        Toast.makeText(RecyclerBannerActivity.this, "position: " + position +
                                 " title:" + ((BanneModel) data).getTitle() +
-                                "   CurrentItem:" + bannerView.getCurrentItem());
+                                "   CurrentItem:" + bannerView.getCurrentItem(), Toast.LENGTH_SHORT).show();
                     }
-                }).execute(DateBox.banneModels());
+                })
+                .execute(DateBox.banneModels());
     }
 
     private void marginSide(RecyclerBanner bannerView) {
