@@ -24,21 +24,20 @@ public class DefaultBannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_default_banner_user);
 
         banner = (Banner) findViewById(R.id.banner);
-
         banner.bindView(new BindViewCallBack<ImageView, BanneModel>() {
             @Override
             public void bindView(ImageView view, BanneModel data, int position) {//图片处理
                 Glide.with(view.getContext()).load(data.getUrl()).into(view);
             }
 
-        }).setOnClickBannerListener(new OnClickBannerListener<View, BanneModel>() {
+        }).setOnClickBannerListener(new OnClickBannerListener<ImageView, BanneModel>() {
 
             @Override
-            public void onClickBanner(View view, BanneModel data, int position) {//点击事件
+            public void onClickBanner(ImageView view, BanneModel data, int position) {//点击事件
                 Toast.makeText(view.getContext(), "click position ：" + position + "\n标题：" + data.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
-        }).execute(DateBox.banne1Model());//填充数据
+        }).execute(DateBox.banneModels());//填充数据
     }
 
     public void onSelect3(View view) {

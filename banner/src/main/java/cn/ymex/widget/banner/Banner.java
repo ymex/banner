@@ -248,18 +248,27 @@ public class Banner extends BaseBanner<Banner> implements ViewPager.OnPageChange
 
             if (bindViewCallBack != null && getBannerData().size() > 0) {
                 if (def) {
+                    //noinspection unchecked
                     bindViewCallBack.bindView(CreateViewCaller.findImageView(view), getBannerData().get(index), index);
                 } else {
+                    //noinspection unchecked
                     bindViewCallBack.bindView(view, getBannerData().get(index), index);
                 }
 
             }
             if (onClickBannerListener != null && getBannerData().size() > 0) {
                 final int finalIndex = index;
+                final boolean finalDef = def;
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onClickBannerListener.onClickBanner(view, getBannerData().get(finalIndex), finalIndex);
+                        if (finalDef) {
+                            //noinspection unchecked
+                            onClickBannerListener.onClickBanner(CreateViewCaller.findImageView(view), getBannerData().get(finalIndex), finalIndex);
+                        }else {
+                            //noinspection unchecked
+                            onClickBannerListener.onClickBanner(view, getBannerData().get(finalIndex), finalIndex);
+                        }
                     }
                 });
             }
