@@ -17,7 +17,7 @@ banner扩展自viewpager 支持动画，指示器扩展等。 可用于轮播图
 ## gradle 引入
 
 ```
-compile 'cn.ymex:banner:1.6.7'
+compile 'cn.ymex:banner:1.6.8'
 ```
 
 
@@ -176,14 +176,15 @@ banner.createView(new CreateViewCallBack() {
 
 ## 注意事项
 
- 1.关于泛型的问题：
+1.关于泛型的问题：
 
  - `BindViewCallBack<V, T>()`第一个泛型参数是`CreateViewCallBack()`返回类型，第二个泛型参数是你填充数据的类型。
 
  - `OnClickBannerListener<V, T>()` 同上。
 
 
- 2. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
+
+2. 使用glide 框架加载图片的异常,`java.lang.IllegalArgumentException:  You must not call setTag() on a view Glide is targeting`
 
 原因：如果 banner页布局只存在一个ImageView组件，banner 与 glide 都会去操作组件的setTag()，则glide会抛出异常。
 （banner v1.6.7版本以下的默认布局仅含有一个ImageView 组件，所以使用glide会有这个异常。v1.6.7已经重写了默认布局。）
