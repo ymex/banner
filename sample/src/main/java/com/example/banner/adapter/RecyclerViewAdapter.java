@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.banner.R;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import cn.ymex.widget.banner.Banner;
 import cn.ymex.widget.banner.callback.BindViewCallBack;
+import cn.ymex.widget.banner.callback.OnClickBannerListener;
 
 /**
  * Created by ymex on 2017/9/10.
@@ -96,7 +98,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         .load(data.getUrl())
                         .into(view);
             }
-        }).execute(DateBox.banneModels());
+        }).setOnClickBannerListener(new OnClickBannerListener<AppCompatImageView , BanneModel >() {
+            @Override
+            public void onClickBanner(AppCompatImageView view, BanneModel data, int position) {
+                Toast.makeText(view.getContext(), "click index " + position, Toast.LENGTH_SHORT).show();
+            }
+        })
+                .execute(DateBox.banneModels());
     }
 }
 

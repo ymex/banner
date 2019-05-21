@@ -103,7 +103,7 @@ public abstract class BaseBanner<T extends BaseBanner> extends FrameLayout {
         isVertical = (typedArray.getInt(R.styleable.Banner_banner_orientation, 0) == VERTICAL);
         typedArray.recycle();
     }
-    
+
 
     public abstract <D extends Object> void execute(List<D> datas);
 
